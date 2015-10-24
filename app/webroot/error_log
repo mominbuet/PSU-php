@@ -1,0 +1,14 @@
+[28-Jul-2015 23:42:50 Asia/Dhaka] PHP Parse error:  syntax error, unexpected 'dationRu' (T_STRING) in /home/dflbd/public_html/PMTC/app/Controller/UIAPIController.php on line 181
+[28-Jul-2015 23:46:29 Asia/Dhaka] PHP Parse error:  syntax error, unexpected 't' (T_STRING) in /home/dflbd/public_html/PMTC/app/Controller/UIAPIController.php on line 323
+[29-Jul-2015 00:06:12 Asia/Dhaka] PHP Parse error:  syntax error, unexpected end of file in /home/dflbd/public_html/PMTC/app/Controller/UIAPIController.php on line 362
+[29-Jul-2015 02:01:59 Asia/Dhaka] PHP Parse error:  syntax error, unexpected end of file, expecting variable (T_VARIABLE) or '$' in /home/dflbd/public_html/PMTC/app/Controller/UIAPIController.php on line 360
+[08-Aug-2015 20:32:08 Asia/Dhaka] PHP Parse error:  syntax error, unexpected end of file, expecting ')' in /home/dflbd/public_html/PMTC/app/Controller/UIAPIController.php on line 365
+[15-Aug-2015 01:44:25 Asia/Dhaka] PHP Fatal error:  Call to a member function parseCriteria() on a non-object in /home/dflbd/public_html/PMTC/app/Controller/SelectUpzillasController.php on line 49
+[15-Aug-2015 01:46:06 Asia/Dhaka] PHP Fatal error:  Call to a member function parseCriteria() on a non-object in /home/dflbd/public_html/PMTC/app/Controller/SelectUpzillasController.php on line 49
+[15-Aug-2015 02:29:11 Asia/Dhaka] PHP Fatal error:  Call to a member function find() on a non-object in /home/dflbd/public_html/PMTC/app/Controller/SelectDistrictsController.php on line 31
+[15-Aug-2015 02:29:36 Asia/Dhaka] PHP Fatal error:  Call to a member function find() on a non-object in /home/dflbd/public_html/PMTC/app/Controller/SelectDistrictsController.php on line 31
+[15-Aug-2015 03:45:19 Asia/Dhaka] PHP Parse error:  syntax error, unexpected end of file in /home/dflbd/public_html/PMTC/app/Controller/UsersQuestionDataController.php on line 131
+[19-Aug-2015 02:53:55 Asia/Dhaka] PHP Fatal error:  Call to undefined method UserMessagesController::Reuse() in /home/dflbd/public_html/PMTC/app/Controller/UserMessagesController.php on line 55
+[19-Aug-2015 02:55:21 Asia/Dhaka] PHP Fatal error:  Call to undefined method ReuseComponent::loadModel() in /home/dflbd/public_html/PMTC/app/Controller/Component/ReuseComponent.php on line 8
+[19-Aug-2015 03:21:15 Asia/Dhaka] PHP Parse error:  syntax error, unexpected end of file in /home/dflbd/public_html/PMTC/app/Controller/SurveyAPIController.php on line 112
+[19-Aug-2015 03:35:05 Asia/Dhaka] PHP Fatal error:  Call to a member function create() on a non-object in /home/dflbd/public_html/PMTC/app/Controller/SurveyAPIController.php on line 547

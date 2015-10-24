@@ -1,0 +1,74 @@
+.navbar-static-top{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a0b2b2+0,596a72+100 */
+background: #a0b2b2; /* Old browsers */
+background: -moz-linear-gradient(top,  #a0b2b2 0%, #596a72 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a0b2b2), color-stop(100%,#596a72)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #a0b2b2 0%,#596a72 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #a0b2b2 0%,#596a72 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #a0b2b2 0%,#596a72 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #a0b2b2 0%,#596a72 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0b2b2', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */
+	
+}
+
+.navbar-default .navbar-brand{
+	color: #FFF!important;
+}
+
+.sidebar ul li a.active{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffc578+0,fb9d23+100;Orange+3D+%233 */
+background: #ffc578; /* Old browsers */
+background: -moz-linear-gradient(top,  #ffc578 0%, #fb9d23 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffc578), color-stop(100%,#fb9d23)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #ffc578 0%,#fb9d23 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #ffc578 0%,#fb9d23 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #ffc578 0%,#fb9d23 100%); /* IE10+ */
+/*background: linear-gradient(to bottom,  #ffc578 0%,#fb9d23 100%); 
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffc578', endColorstr='#fb9d23',GradientType=0 ); /* IE6-9 */
+	font-weight: bold;
+	background:rgb(77,127,167);
+	color: #FFF;
+}
+
+.sidebar ul li{
+  background-color: #40a4df;
+ 
+}
+.sidebar ul li a{
+	color: #FFF;
+	 transition: all 0.2s ease;
+}
+.sidebar ul li a:hover{
+	background: #FFF;
+	color: #3d8e51;
+}
+
+.page-header{
+	text-transform: uppercase;
+	font-size: 16px;
+	letter-spacing:1px; 
+	font-weight: 600;
+	color: #3d8e51;
+}
+
+button, html, input, select, textarea{
+	overflow-x: hidden;
+}
+
+.form-control{
+	border-radius:0;
+}
+.btn{
+	border-radius:0;
+}
+
+.fa-3x {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fefcea+0,f1da36+100;Gold+3D */
+	color: #f1da36; /* Old browsers */
+    font-size: 4em;
+    padding-right: 5px;
+}
+
+.fa-file{
+	color: #41A317!important;
+}

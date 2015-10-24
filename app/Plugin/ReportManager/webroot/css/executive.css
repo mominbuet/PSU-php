@@ -1,0 +1,75 @@
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#reportManagerDisplay .reportName {
+    font: normal normal bold 19pt; 
+    color: #333333;
+}
+
+#reportManagerDisplay .timestamp {
+    margin-top: 15px;
+    font: normal normal 8pt; 
+    color: #333333;
+    float: left;
+    clear: both;
+}
+
+
+#reportManagerDisplay .report
+{
+    margin: 0px;
+    padding: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-style: solid;
+    border-color: #cccccc;
+    border-collapse: collapse;
+    font: normal normal bold 11pt; 
+    color: #ffffff;
+}
+
+#reportManagerDisplay .report tr.header th
+{
+    border-top-width: 1px;
+    border-bottom-width: 2px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-style: solid;
+    border-color: #eeeeee;
+    font: normal normal bold 10pt;
+    color: #000000;
+    text-align: left;
+}
+
+
+#reportManagerDisplay .report tr.body2 td
+{
+    background: #FFFFFF;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-style: solid;
+    border-color: #CCCCCC;
+    text-align: left;
+    font: normal normal 9pt;
+    color: #555555;
+}
+
+#reportManagerDisplay .report tr.footer td
+{
+    background: none;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-style: solid;
+    border-color: #eeeeee;
+    font: normal normal 9pt; 
+    color: #555555;
+    text-align: left;
+}

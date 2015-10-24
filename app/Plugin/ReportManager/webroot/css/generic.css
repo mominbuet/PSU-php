@@ -1,0 +1,80 @@
+
+#reportManagerDisplay .reportName {
+    font: normal normal bold 19pt; 
+    color: #333333;
+}
+
+#reportManagerDisplay .timestamp {
+    margin-top: 15px;
+    font: normal normal 8pt; 
+    color: #333333;
+    float: left;
+    clear: both;
+}
+
+
+#reportManagerDisplay .report
+{
+    margin: 0px;
+    padding: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-style: none;
+    border-color: #cccccc;
+    border-collapse: collapse;
+    font: normal normal bold 11pt; 
+    /*color: #ffffff;*/
+}
+
+#reportManagerDisplay .report tr.header th
+{
+    padding: 4px 4px 4px 4px;
+}
+
+
+#reportManagerDisplay .report tr.body2 td
+{
+    padding: 4px 4px 4px 4px;
+}
+
+#reportManagerDisplay .report tr.footer td
+{
+    padding: 4px 4px 4px 4px;
+}
+
+.floatRight {
+    float:right !important
+}
+
+#copyright { 
+    font: normal normal 8pt; 
+    float: left; 
+    clear: both;
+}
+
+.counter { 
+    float: left; 
+    clear: both; 
+    font: normal normal 9pt; 
+    margin-top: 10px;
+    page-break-after: always;
+    margin-bottom: 10px;    
+}
+
+table {
+    float: left; 
+    clear: both;
+    table-layout: fixed;
+}
+
+.page-break {
+    float: none !important;
+    display: block !important;
+    page-break-before: always;
+}
+
+.col {
+    width: 100px
+}
