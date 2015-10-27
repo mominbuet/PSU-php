@@ -221,13 +221,13 @@ class UsersQuestionDataController extends AppController {
                         'type' => 'inner',
                         'foreignKey' => true,
                         'conditions' => array('QuestionGroup.question_set_id = QuestionSet.id')
-                    ),array(
+                    ), array(
                         'table' => 'pmtc_user_groups',
                         'alias' => 'UserGroup',
                         'type' => 'inner',
                         'foreignKey' => true,
                         'conditions' => array('UserGroup.group_id = QuestionGroup.group_id')
-                    ), 
+                    ),
 //                    array(
 //                        'table' => 'pmtc_groups',
 //                        'alias' => 'Group',
@@ -242,7 +242,6 @@ class UsersQuestionDataController extends AppController {
                         'foreignKey' => true,
                         'conditions' => array('User.id = UserGroup.user_id')
                     ),
-                    
                 ),
                 'conditions' => array('User.id' => $this->Session->read('Auth.User.User.id'),
                     'QuestionSet.is_active' => 1,
@@ -388,6 +387,31 @@ class UsersQuestionDataController extends AppController {
                         'foreignKey' => true,
                         'conditions' => array('SelectDistrict.district_code = UsersQuestionData.district_id')
                     ), array(
+                        'table' => 'pmtc_select_upzilla',
+                        'alias' => 'SelectUpzilla',
+                        'type' => 'inner',
+                        'foreignKey' => true,
+                        'conditions' => array('SelectUpzilla.district_id = SelectDistrict.district_id and SelectUpzilla.upzilla_code = UsersQuestionData.upzilla_id ')
+                    ), array(
+                        'table' => 'pmtc_select_union',
+                        'alias' => 'SelectUnion',
+                        'type' => 'inner',
+                        'foreignKey' => true,
+                        'conditions' => array('SelectUnion.upzilla_id = SelectUpzilla.upzilla_id and SelectUpzilla.upzilla_code = UsersQuestionData.upzilla_id'
+                            . ' and SelectUnion.union_code = UsersQuestionData.union_id ')
+                    ), array(
+                        'table' => 'pmtc_select_land_types',
+                        'alias' => 'SelectLandType',
+                        'type' => 'inner',
+                        'foreignKey' => true,
+                        'conditions' => array('SelectLandType.land_use_code = UsersQuestionData.land_use_type_id')
+                    ), array(
+                        'table' => 'pmtc_select_ownerships',
+                        'alias' => 'SelectOwnership',
+                        'type' => 'inner',
+                        'foreignKey' => true,
+                        'conditions' => array('SelectOwnership.ownership_code = UsersQuestionData.owner_type_id')
+                    ),array(
                         'table' => 'pmtc_question_group',
                         'alias' => 'QuestionGroup',
                         'type' => 'inner',
@@ -421,9 +445,9 @@ class UsersQuestionDataController extends AppController {
         if ($questionSetsInput) {
             $usersQuestionData = array();
             $fields = array('DISTINCT UsersQuestionData.id', 'UsersQuestionData.insert_time', 'UsersQuestionData.water_code',
-                'UsersQuestionData.geo_lat', 'UsersQuestionData.geo_lon',
-                'User.user_name', 'User.id', 'QuestionSet.id', 'SelectDistrict.district_name',
-                'QuestionSet.qsn_set_name', 'UsersQuestionData.is_verify');
+                'UsersQuestionData.geo_lat', 'UsersQuestionData.geo_lon','SelectOwnership.ownership_name',
+                'User.user_name', 'User.id', 'QuestionSet.id', 'SelectDistrict.district_name','SelectUpzilla.upzilla_name','SelectUnion.union_name',
+                'QuestionSet.qsn_set_name', 'UsersQuestionData.is_verify','SelectLandType.land_use_name');
             if (!$conditions) {
                 $this->Paginator->settings = array(
                     'fields' => $fields,

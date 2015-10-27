@@ -39,6 +39,31 @@ class UIAPIController extends AppController {
         }
     }
 
+    public function get_upzilla_for_districts_by_id($district_id = null) {
+        if ($district_id) {
+            $ret = "";
+            $this->loadModel("SelectUpzilla");
+            $users = $this->SelectUpzilla->find('list', array('fields' => array('upzilla_id', 'upzilla_name'),
+//                'joins' => array(
+//                    array(
+//                        'table' => "pmtc_select_districts",
+//                        'alias' => 'SelectDistrict',
+//                        'type' => 'inner',
+//                        'foreignKey' => true,
+//                        'conditions' => array('SelectUpzilla.district_id = SelectDistrict.district_id')
+//                    )),
+                'conditions' => array('SelectUpzilla.district_id' => $district_id)));
+//            $this->set('users');
+            $ret.='<option value="">Select Upzilla</option>';
+            if (sizeof($users) != 0) {
+                foreach ($users as $key => $val) {
+                    $ret.='<option value="' . $key . '">' . $val . '</option>';
+                }
+            }
+            echo $ret;
+        }
+    }
+
     public function get_upzilla_for_districts_by_code($district_code = null) {
         if ($district_code) {
             $ret = "";

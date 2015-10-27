@@ -16,9 +16,8 @@
     echo $this->Form->input('district_name', array('label' => false, 'class' => 'form-control'));
     echo '</div>';
 
-    echo '<div class="col-lg-3 pull-right"><label>Select Division</label>';
-    echo $this->Form->input('division_id', array('label' => false, 'empty' => 'Select division', 'class' => 'form-control', 'empty' => 'Select District'));
-    echo '</div></div><div class="col-lg-12">';
+    
+    echo '</div><div class="col-lg-12">';
     echo $this->Form->submit(__('Submit'), array('class' => "fa fa-plus btn btn-success pull-right"));
     echo '</div>';
     echo $this->Form->end();
@@ -36,7 +35,7 @@
                                 <tr>
                                     <!--<th><?php // echo $this->Paginator->sort('district_id');        ?></th>-->
                                     <th><?php echo $this->Paginator->sort('district_name'); ?></th>
-                                    <th><?php echo $this->Paginator->sort('division_id'); ?></th>
+                                    <!-- th><?php echo $this->Paginator->sort('division_id'); ?></th -->
                                     <th><?php echo $this->Paginator->sort('district_code'); ?></th>
                                     <th class="actions"><?php echo __('Actions'); ?></th>
                                 </tr>
@@ -46,9 +45,9 @@
                                     <tr>
                                         <!--<td><?php // echo h($selectDistrict['SelectDistrict']['district_id']);        ?>&nbsp;</td>-->
                                         <td><?php echo h($selectDistrict['SelectDistrict']['district_name']); ?>&nbsp;</td>
-                                        <td>
+                                        <!-- td>
                                             <?php echo $this->Html->link($selectDistrict['SelectDivision']['division_name'], array('controller' => 'select_divisions', 'action' => 'view', $selectDistrict['SelectDivision']['division_id'])); ?>
-                                        </td>
+                                        </td -->
                                         <td><?php echo h($selectDistrict['SelectDistrict']['district_code']); ?>&nbsp;</td>
                                         <td class="actions">
                                             <?php //echo $this->Html->link(__('View'), array('action' => 'view', $selectDistrict['SelectDistrict']['district_id'])); ?>

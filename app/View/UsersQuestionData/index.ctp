@@ -18,11 +18,11 @@
             echo '<div class="col-lg-12"><div class="col-lg-8">';
             echo "<div class='form-group col-lg-4'> <label>Select Survey </label>";
             echo $this->Form->input('questionSets', array('label' => false, 'div' => false, 'class' => 'form-control', 'empty' => 'Select Survey',
-                'default' => $set_qset));
+            'default' => $set_qset));
             echo '</div>';
             echo "<div class='form-group col-lg-4 pull-right'> <label>User Name</label>";
             echo $this->Form->input('user_id', array('default' => $set_user, 'div' => false,
-                'label' => false, 'class' => 'form-control', 'empty' => 'Select User'));
+            'label' => false, 'class' => 'form-control', 'empty' => 'Select User'));
 
             echo '</div></div><div class="col-lg-8">';
             echo "<div class='form-group col-lg-4'> <label>Date From</label>";
@@ -43,104 +43,119 @@
     </div>
     <br>
     <?php if (isset($usersQuestionData)) : ?>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <?php echo __('All Users Question answers'); ?>      </div>       
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover" >
-                                <thead>
-                                    <tr>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <?php echo __('All Users Question answers'); ?>      </div>       
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" >
+                            <thead>
+                                <tr>
 
-                                        <th><?php echo $this->Paginator->sort('user_id'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('user_id'); ?></th>
 
-                                        <!--<th>Location</th>-->
+                                    <!--<th>Location</th>-->
 
-                                        <th  style="font-size:12px;"><?php echo $this->Paginator->sort('insert_time'); ?></th> 
-                                        <th  style="font-size:12px;"><?php echo $this->Paginator->sort('water_code'); ?></th>
-                                        <?php foreach ($questions as $questions): ?>
-                                            <th  style="font-size:12px;"><?= $questions ?></th>
-                                        <?php endforeach; ?>
-                                        <th>Verified?</th>
-                                        <th class="actions"><?php echo __('Actions'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($usersQuestionData as $usersQuestionData): ?>
-                                        <tr>
-                                            <!--<td><?php // echo h($usersQuestionData['UsersQuestionData']['id']);              ?>&nbsp;</td>-->
-                                            <td>
-                                                <?php echo $this->Html->link($usersQuestionData['User']['user_name'], array('controller' => 'users', 'action' => 'view', $usersQuestionData['User']['id'])); ?>
-                                            </td>
-                                            <!--                                        <td>
-                                            <?php //echo $this->Html->link($usersQuestionData['QuestionSet']['qsn_set_name'], array('controller' => 'question_sets', 'action' => 'view', $usersQuestionData['QuestionSet']['id'])); ?>
-                                                                                </td>-->
+                                    <th  style="font-size:10px;"><?php echo $this->Paginator->sort('insert_time'); ?></th> 
+                                    <th  style="font-size:10px;"><?php echo $this->Paginator->sort('water_code'); ?></th>
+                                    <th  style="font-size:10px;">District</th>
+                                    <th  style="font-size:10px;">Upzilla</th>
+                                    <th  style="font-size:10px;">Union</th>    
+                                    <th  style="font-size:10px;">Land Type</th>
+                                    <th  style="font-size:10px;">Ownership</th>
 
-                                            <!--                                            <td><a href="https://www.google.com/maps/place/
-                                            <?php //echo $usersQuestionData['UsersQuestionData']['geo_lat']; ?>,
-                                            <?php //echo $usersQuestionData['UsersQuestionData']['geo_lon']; ?>" target="_blank">
-                                            <?php //echo $usersQuestionData['UsersQuestionData']['geo_lat']; ?>,
-                                            <?php // echo $usersQuestionData['UsersQuestionData']['geo_lon']; ?></a> </td>-->
-
-                                            <td style="font-size:12px;"><?php echo h($usersQuestionData['UsersQuestionData']['insert_time']); ?>&nbsp;</td>
-                                            <td style="font-size:12px;" flg='water_code'><?php echo h($usersQuestionData['UsersQuestionData']['water_code']); ?>&nbsp;</td>
-
-                                            <?php foreach ($usersQuestionData['QuestionAnswers'] as $val): ?>
-
-                                                <td><?=
-                                                    // need to change this on production
-                                                    ((strpos($val, 'image/') !== false) ?
-                                                            '<img height="80" src="/PSU/SurveyAPI/get_image_answer_id/' . $val . '"/>' : $val);
-                                                    ?></td>
-                                            <?php endforeach; ?>
-                                            <td><?=
-                                                ($usersQuestionData['User']['id'] == $this->Session->read('Auth.User.User.id') ||
-                                                $this->Session->read('Auth.User.User.superuser') == 1) ?
-                                                        (($usersQuestionData['UsersQuestionData']['is_verify'] == 0) ?
-                                                                '<button class="btn btn-warning btn-sm btnVerify" tag="' . $usersQuestionData['UsersQuestionData']['id'] . '">Verify</button>' : "Verified") : ""
-                                                ?>&nbsp;</td>
-                                            <td class="actions">
-                                                <?php //echo $this->Html->link(__('View'), array('action' => 'view', $usersQuestionData['UsersQuestionData']['id']));   ?>
-
-                                                <?php
-                                                ?>
-
-                                                <?php
-                                                if (//$usersQuestionData['User']['id'] == $this->Session->read('Auth.User.User.id') ||
-                                                        $this->Session->read('Auth.User.User.superuser') == 1) :
-                                                    if ($usersQuestionData['UsersQuestionData']['is_verify'] == 0) :
-                                                        echo '<button class="btn btn-sm btn-info answers"  data-toggle="modal" data-target="#myModal" flg ="' . $usersQuestionData['UsersQuestionData']['id'] . '" >Answers</button>' ;
-                                                        echo $this->Html->link(__('Edit'), array('action' => 'edit', $usersQuestionData['UsersQuestionData']['id']), array('class' => 'btn btn-sm btn-warning'));
-                                                        $this->Form->postLink(__('Delete'), array('action' => 'delete', $usersQuestionData['UsersQuestionData']['id']), array('class' => 'btn btn-sm btn-danger'), __('Are you sure you want to delete # %s?', $usersQuestionData['UsersQuestionData']['id']));
-                                                    endif;
-                                                endif;
-                                                ?>
-
-                                            </td>
-                                        </tr>
+                                    <!--<th  style="font-size:10px;">Upzilla</th>-->
+                                    <?php foreach ($questions as $questions): ?>
+                                    <th  style="font-size:10px;"><?= $questions ?></th>
                                     <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                            <p>
-                                <?php
-                                echo $this->Paginator->counter(array(
-                                    'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-                                ));
-                                ?>                        </p>
-                            <div class="paging">
-                                <?php
-                                echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-                                echo $this->Paginator->numbers(array('separator' => ''));
-                                echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-                                ?>
-                            </div>
+                                    <th>Verified?</th>
+                                    <th class="actions"><?php echo __('Actions'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php //debug($usersQuestionData);?>
+                                <?php foreach ($usersQuestionData as $usersQuestionData): ?>
+                                <tr>
+                                    <!--<td><?php // echo h($usersQuestionData['UsersQuestionData']['id']);              ?>&nbsp;</td>-->
+                                    <td>
+                                        <?php echo $this->Html->link($usersQuestionData['User']['user_name'], array('controller' => 'users', 'action' => 'view', $usersQuestionData['User']['id'])); ?>
+                                    </td>
+                                    <!--                                        <td>
+                                    <?php //echo $this->Html->link($usersQuestionData['QuestionSet']['qsn_set_name'], array('controller' => 'question_sets', 'action' => 'view', $usersQuestionData['QuestionSet']['id'])); ?>
+                                                                        </td>-->
+
+                                    <!--                                            <td><a href="https://www.google.com/maps/place/
+                                    <?php //echo $usersQuestionData['UsersQuestionData']['geo_lat']; ?>,
+                                    <?php //echo $usersQuestionData['UsersQuestionData']['geo_lon']; ?>" target="_blank">
+                                    <?php //echo $usersQuestionData['UsersQuestionData']['geo_lat']; ?>,
+                                    <?php // echo $usersQuestionData['UsersQuestionData']['geo_lon']; ?></a> </td>-->
+
+                                    <td style="font-size:10px;"><?php echo h($usersQuestionData['UsersQuestionData']['insert_time']); ?>&nbsp;</td>
+                                    <td style="font-size:10px;" flg='water_code'><?php echo h($usersQuestionData['UsersQuestionData']['water_code']); ?>&nbsp;</td>
+                                    <td style="font-size:10px;"><?php echo h($usersQuestionData['SelectDistrict']['district_name']); ?>&nbsp;</td>
+                                    <td style="font-size:10px;"><?php echo h($usersQuestionData['SelectUpzilla']['upzilla_name']); ?>&nbsp;</td>
+                                    <td style="font-size:10px;"><?php echo h($usersQuestionData['SelectUnion']['union_name']); ?>&nbsp;</td>
+                                    <td style="font-size:10px;"><?php echo h($usersQuestionData['SelectLandType']['land_use_name']); ?>&nbsp;</td>
+                                    <td style="font-size:10px;"><?php echo h($usersQuestionData['SelectOwnership']['ownership_name']); ?>&nbsp;</td>
+
+                                    <!--<td style="font-size:10px;"><?php // echo h($usersQuestionData['SelectUpzilla']['upzilla_name']); ?>&nbsp;</td>-->
+
+                                    <?php foreach ($usersQuestionData['QuestionAnswers'] as $val): ?>
+
+                                    <td><?=
+                                        // need to change this on production
+                                        ((strpos($val, 'image/') !== false) ?
+                                        '<img height="80" src="/PSU/SurveyAPI/get_image_answer_id/' . $val . '"/>' : $val);
+                                        ?></td>
+                                    <?php endforeach; ?>
+                                    <td><?=
+                                        ($usersQuestionData['User']['id'] == $this->Session->read('Auth.User.User.id') ||
+                                        $this->Session->read('Auth.User.User.superuser') == 1) ?
+                                        (($usersQuestionData['UsersQuestionData']['is_verify'] == 0) ?
+                                        '<button class="btn btn-warning btn-sm btnVerify" tag="' . $usersQuestionData['UsersQuestionData']['id'] . '">Verify</button>' : "Verified") : ""
+                                        ?>&nbsp;</td>
+                                    <td class="actions">
+                                        <?php //echo $this->Html->link(__('View'), array('action' => 'view', $usersQuestionData['UsersQuestionData']['id']));   ?>
+
+                                        <?php
+                                        ?>
+
+                                        <?php
+                                        if (//$usersQuestionData['User']['id'] == $this->Session->read('Auth.User.User.id') ||
+                                        $this->Session->read('Auth.User.User.superuser') == 1) :
+                                        if ($usersQuestionData['UsersQuestionData']['is_verify'] == 0) :
+                                        echo '<button class="btn btn-sm btn-info answers"  data-toggle="modal" data-target="#myModal" flg ="' . $usersQuestionData['UsersQuestionData']['id'] . '" >Answers</button>' ;
+                                        echo $this->Html->link(__('Edit'), array('action' => 'edit', $usersQuestionData['UsersQuestionData']['id']), array('class' => 'btn btn-sm btn-warning'));
+                                        $this->Form->postLink(__('Delete'), array('action' => 'delete', $usersQuestionData['UsersQuestionData']['id']), array('class' => 'btn btn-sm btn-danger'), __('Are you sure you want to delete # %s?', $usersQuestionData['UsersQuestionData']['id']));
+                                        endif;
+                                        endif;
+                                        ?>
+
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <p>
+                            <?php
+                            echo $this->Paginator->counter(array(
+                            'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
+                            ));
+                            ?>                        </p>
+                        <div class="paging">
+                            <?php
+                            echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
+                            echo $this->Paginator->numbers(array('separator' => ''));
+                            echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     <?php endif; ?>
 </div>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -197,8 +212,8 @@
         });
 
         //getUsers( < ? = $set_user ? > );
-        getUsers(<?php echo $set_user; ?>);
-        $(".answers").click(function () {
+        getUsers( < ?php echo $set_user; ? > );
+                $(".answers").click(function () {
             var res = $(this).attr('flg');
             $('.modal-body').html("");
             $.get(website + "SurveyAPI/get_answers/" + res, function (data) {

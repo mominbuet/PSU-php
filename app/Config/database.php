@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  *
@@ -68,26 +69,26 @@
  */
 class DATABASE_CONFIG {
 
-public $default = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'root',
-		'password' => 'mspsu123#',
-		'database' => 'dflbd_PMTC',
-		'prefix' => 'pmtc_',
-		'encoding' => 'utf8',
-	);
-	public $test = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
-		'host' => '182.48.87.66',
-		'login' => 'gunner',
-		'password' => '123qweasd',
-		'database' => 'dflbd_PMTC',
-		'prefix' => 'pmtc_',
-		//'encoding' => 'utf8',
-	);
+    public $default = array(
+        'datasource' => 'Database/Mysql',
+        'persistent' => false,
+        'host' => 'localhost',
+        'login' => 'root',
+        'password' => 'mspsu123#',
+//		'database' => 'dflbd_PMTC_',
+        'database' => 'PSU',
+        'prefix' => 'pmtc_',
+        'encoding' => 'utf8',
+    );
+    public $test = array(
+        'datasource' => 'Database/Mysql',
+        'persistent' => false,
+        'host' => '182.48.87.66',
+        'login' => 'gunner',
+        'password' => '123qweasd',
+        'database' => 'dflbd_PMTC',
+        'prefix' => 'pmtc_',
+            //'encoding' => 'utf8',
+    );
 
-	
 }
