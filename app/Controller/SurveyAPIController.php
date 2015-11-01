@@ -283,6 +283,14 @@ class SurveyAPIController extends AppController {
         }
     }
 
+    public function get_db_backup() {
+        $dir = new Folder(UPLOADS . 'dbbackups/');
+//        $path = UPLOADS . 'dbbackups/';
+//        debug($dir->find('.*\.sql'));
+        $this->response->file( UPLOADS . 'dbbackups/psu.sql');
+        return $this->response;
+    }
+
     public function get_uploaded_file_id($id = null) {
         if ($id) {
             $this->loadModel('AndroidApp');
@@ -539,9 +547,9 @@ class SurveyAPIController extends AppController {
 
             $qs = $this->Question->query(" SELECT questions.id,questions.qsn_desc,questions.answer_length,questions.section_name "
                     . " from pmtc_questions as questions "
-                    . " where questions.qsn_set_id  = $surveyID "
-                    . ((is_null($qset[0]['pmtc_question_sets']['master_id'])) ? "" :
-                            " OR questions.qsn_set_id=" . $qset[0]['pmtc_question_sets']['master_id'] . " "));
+                    . " where questions.qsn_set_id  = $surveyID ");
+//                    . ((is_null($qset[0]['pmtc_question_sets']['master_id'])) ? "" :
+//                            " OR questions.qsn_set_id=" . $qset[0]['pmtc_question_sets']['master_id'] . " "));
             if ($qs) {
                 echo json_encode(array('status' => 'SUCCESS',
                     "result" => $qs));

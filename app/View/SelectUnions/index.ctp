@@ -1,8 +1,8 @@
 <div class="row" style="padding-bottom: 20px">
     <div class="col-lg-12">
         <h1 class="page-header">
-            <?php echo __('Select Unions'); ?></h1>
-        <?php echo $this->Html->link(__("Add Select Unions"), array("action" => "add"), array("class" => "btn btn-info col-lg-offset-8")); ?>    </div>
+            <?php echo __('Unions'); ?></h1>
+        <?php echo $this->Html->link(__("Add Unions"), array("action" => "add"), array("class" => "btn btn-info col-lg-offset-8")); ?>    </div>
     <!-- /.col-lg-12 -->
 </div>
 <div class="row" style="padding-bottom: 20px">

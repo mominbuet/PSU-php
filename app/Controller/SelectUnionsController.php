@@ -39,7 +39,15 @@ class SelectUnionsController extends AppController {
 
         $this->Paginator->settings['conditions'] = $this->SelectUnion->parseCriteria($this->Prg->parsedParams());
         $this->set('selectUnions', $this->Paginator->paginate());
-        $upzillas = $this->SelectUnion->SelectUpzilla->find('list');
+//        debug();
+        if ($this->request->query) {
+            if ($this->request->query['district_id'])
+                $upzillas = $this->SelectUnion->SelectUpzilla->find('list', 
+                        array('conditions' => array('district_id' => $this->request->query['district_id'])));
+            else
+                $upzillas = $this->SelectUnion->SelectUpzilla->find('list');
+        } else
+            $upzillas = $this->SelectUnion->SelectUpzilla->find('list');
         $districts = $this->SelectUnion->SelectUpzilla->SelectDistrict->find('list');
         $this->set(compact('upzillas'));
         $this->set(compact('districts'));

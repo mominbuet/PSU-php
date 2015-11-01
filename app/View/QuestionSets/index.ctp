@@ -34,7 +34,7 @@
 <div class="row" style="margin-top: 20px;" id="log"></div>
 <script type="text/javascript">
     var inFolder = null;
-    var data = '<?= $treeJson; ?>';
+    var data = '<?php echo $treeJson; ?>';
     data = JSON.parse(data);
     var isSurveyMap = [];
     $(document).ready(function() {

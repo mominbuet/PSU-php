@@ -69,6 +69,9 @@
                                     </div>
                                 <?php endif; ?>
                                 <input type="submit" class="fa fa-plus btn btn-success" value="Create <?= ($is_survey == 1) ? "Survey" : "Folder"; ?>"/> 
+								
+								<input type="button" style="margin-left:3%;" class="fa btn btn-success" value="Cancel" onclick="cancel_page_update('QuestionSets');" />
+
                             </form>
                         </div>
                     </div>

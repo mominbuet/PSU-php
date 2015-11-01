@@ -380,38 +380,40 @@ class UsersQuestionDataController extends AppController {
                     'QuestionSet.is_active' => 1,
                     'QuestionSet.is_survey' => 1),
                 'joins' => array(
+//                    array(
+//                        'table' => 'pmtc_select_district',
+//                        'alias' => 'SelectDistrict',
+//                        'type' => 'inner',
+//                        'foreignKey' => true,
+//                        'conditions' => array('SelectDistrict.district_code = UsersQuestionData.district_id')
+//                    ), array(
+//                        'table' => 'pmtc_select_upzilla',
+//                        'alias' => 'SelectUpzilla',
+//                        'type' => 'inner',
+//                        'foreignKey' => true,
+//                        'conditions' => array('SelectUpzilla.district_id = SelectDistrict.district_id and SelectUpzilla.upzilla_code = UsersQuestionData.upzilla_id ')
+//                    ), array(
+//                        'table' => 'pmtc_select_union',
+//                        'alias' => 'SelectUnion',
+//                        'type' => 'inner',
+//                        'foreignKey' => true,
+//                        'conditions' => array('SelectUnion.upzilla_id = SelectUpzilla.upzilla_id and SelectUpzilla.upzilla_code = UsersQuestionData.upzilla_id'
+//                            . ' and SelectUnion.union_code = UsersQuestionData.union_id '
+//                            . ' and SelectUpzilla.district_id=(select district_id from SelectDistrict.district_code=UsersQuestionData.district_id)')
+//                    ), array(
+//                        'table' => 'pmtc_select_land_types',
+//                        'alias' => 'SelectLandType',
+//                        'type' => 'inner',
+//                        'foreignKey' => true,
+//                        'conditions' => array('SelectLandType.land_use_code = UsersQuestionData.land_use_type_id')
+//                    ), array(
+//                        'table' => 'pmtc_select_ownerships',
+//                        'alias' => 'SelectOwnership',
+//                        'type' => 'inner',
+//                        'foreignKey' => true,
+//                        'conditions' => array('SelectOwnership.ownership_code = UsersQuestionData.owner_type_id')
+//                    ),
                     array(
-                        'table' => 'pmtc_select_district',
-                        'alias' => 'SelectDistrict',
-                        'type' => 'inner',
-                        'foreignKey' => true,
-                        'conditions' => array('SelectDistrict.district_code = UsersQuestionData.district_id')
-                    ), array(
-                        'table' => 'pmtc_select_upzilla',
-                        'alias' => 'SelectUpzilla',
-                        'type' => 'inner',
-                        'foreignKey' => true,
-                        'conditions' => array('SelectUpzilla.district_id = SelectDistrict.district_id and SelectUpzilla.upzilla_code = UsersQuestionData.upzilla_id ')
-                    ), array(
-                        'table' => 'pmtc_select_union',
-                        'alias' => 'SelectUnion',
-                        'type' => 'inner',
-                        'foreignKey' => true,
-                        'conditions' => array('SelectUnion.upzilla_id = SelectUpzilla.upzilla_id and SelectUpzilla.upzilla_code = UsersQuestionData.upzilla_id'
-                            . ' and SelectUnion.union_code = UsersQuestionData.union_id ')
-                    ), array(
-                        'table' => 'pmtc_select_land_types',
-                        'alias' => 'SelectLandType',
-                        'type' => 'inner',
-                        'foreignKey' => true,
-                        'conditions' => array('SelectLandType.land_use_code = UsersQuestionData.land_use_type_id')
-                    ), array(
-                        'table' => 'pmtc_select_ownerships',
-                        'alias' => 'SelectOwnership',
-                        'type' => 'inner',
-                        'foreignKey' => true,
-                        'conditions' => array('SelectOwnership.ownership_code = UsersQuestionData.owner_type_id')
-                    ),array(
                         'table' => 'pmtc_question_group',
                         'alias' => 'QuestionGroup',
                         'type' => 'inner',

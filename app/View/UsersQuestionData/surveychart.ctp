@@ -1,7 +1,7 @@
 <div class="row panel ">
-    <div class="col-lg-12">
+    <div class="col-lg-12" style='padding-top: 10px;'>
         <div class="col-lg-6">
-            <div class='form-group col-lg-4'> <label>Survey Name</label>
+            <div class='form-group col-lg-4' > <label>Survey Name</label>
                 <?php
                 echo $this->Form->input('survey_id', array('options' => $surveys, "name" => "survey_id", 'empty' => 'Select Survey',
                     'label' => false,
@@ -23,7 +23,7 @@
     <div class="row panel ">
         <div class="col-lg-12">
             <div class="col-lg-4">
-                <label>Column</label>
+                <label>Column1</label>
                 <select id="column1" class="form-control">
                     <option value="">Select Survey First</option>
                 </select>
@@ -39,7 +39,7 @@
             </div>
 
             <div class="col-lg-4">
-                <label>Column</label>
+                <label>Column2</label>
                 <select id="column2" class="form-control">
                     <option value="">Select Survey First</option>
                 </select>

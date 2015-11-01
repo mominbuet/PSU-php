@@ -85,7 +85,7 @@ class UsersQuestionData extends AppModel {
         'SelectDistrict' => array(
             'className' => 'SelectDistrict',
             'foreignKey' => '',
-            
+//            'type' => 'inner',
             'conditions' => 'SelectDistrict.district_code = UsersQuestionData.district_id',
             'fields' => '',
             'order' => ''
@@ -93,7 +93,9 @@ class UsersQuestionData extends AppModel {
         'SelectUnion' => array(
             'className' => 'SelectUnion',
             'foreignKey' => '',
-            'conditions' => 'SelectUnion.union_code = UsersQuestionData.union_id',
+//            'type' => 'inner',
+            'conditions' => 'SelectUnion.union_code = UsersQuestionData.union_id and SelectUnion.upzilla_id =(select upzilla_id from pmtc_select_upzilla where upzilla_code = UsersQuestionData.upzilla_id and district_id= (select district_id from pmtc_select_districts where district_code=UsersQuestionData.district_id) ) ',
+//            and SelectUpzilla.district_id=(select district_id from SelectDistrict.district_code=UsersQuestionData.district_id)',and SelectUpzilla.district_id=(select district_id from SelectDistrict.district_code=UsersQuestionData.district_id)',
             'fields' => '',
             'order' => ''
         ),
@@ -101,7 +103,7 @@ class UsersQuestionData extends AppModel {
             'className' => 'SelectUpzilla',
             'foreignKey' => '',
             'conditions' => 'SelectUpzilla.upzilla_code = UsersQuestionData.upzilla_id AND SelectUpzilla.district_id = SelectDistrict.district_id',
-            'fields' => '',
+            'fields' => '', 'type' => 'inner',
             'order' => ''
         ),
         'SelectVillage' => array(
@@ -127,6 +129,7 @@ class UsersQuestionData extends AppModel {
             'counterQuery' => ''
         )
     );
+
 //    public function dateFrom($data = array()) {
 //        if (strpos($data['year'], ' - ') !== false){
 //            $tmp = explode(' - ', $data['year']);
