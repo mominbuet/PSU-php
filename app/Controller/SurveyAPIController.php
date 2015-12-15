@@ -153,7 +153,12 @@ class SurveyAPIController extends AppController {
                             if (sizeof($qsnAns) <= 0)
                                 $insQ.=",null";
                             else {
+//                                if (strpos($qsnAns['QuestionAnswer']['qsn_answer'], 'image/') === false)
                                 $t = str_replace("'", "&#39;", $qsnAns['QuestionAnswer']['qsn_answer']);
+//                                else {
+//                                    $t = "http://182.48.87.66:8080/PSU/SurveyAPI/get_image_answer_id/" . $qsnAns['QuestionAnswer']['qsn_answer'];
+//                                    
+//                                }
                                 $insQ.=",'" . $t . "'";
                             }
                         }
@@ -165,31 +170,33 @@ class SurveyAPIController extends AppController {
                     debug($ex->getMessage());
                 }
             }
-            $this->loadModel("UserHistory");
-            $this->UserHistory->create();
-            $this->UserHistory->save(array('user_id' => $this->Session->read('Auth.User.User.id'),
-                'event_details' => "Generated Survey Report" . $this->request->header('User-Agent'),
-                'ipaddress' => $this->request->clientIp(),
-                'event_time' => $this->UserHistory->getDataSource()->expression('NOW()'),
-                'user_event' => 'Generated Survey Report',
-            ));
+            if ($this->Session->read('Auth.User.User.id')) {
+                $this->loadModel("UserHistory");
+                $this->UserHistory->create();
+                $this->UserHistory->save(array('user_id' => $this->Session->read('Auth.User.User.id'),
+                    'event_details' => "Generated Survey Report" . $this->request->header('User-Agent'),
+                    'ipaddress' => $this->request->clientIp(),
+                    'event_time' => $this->UserHistory->getDataSource()->expression('NOW()'),
+                    'user_event' => 'Generated Survey Report',
+                ));
+            }
             echo json_encode(sizeof($answers) . " rows inserted");
         }
     }
 
-    public function chartdata2($survey = null, $col = null, $group_by = null, $func = 'count') {
+    public function chartdata2($survey = null, $col = null, $func = 'count') {
         $this->response->disableCache();
-        if ($col && $survey && $group_by) {
+        if ($col && $survey) {
             $this->loadModel($survey);
             if ($func != 'perc')
-                $data = ($this->$survey->find("all", array('fields' => array("$col as col1, $func($group_by) as cnt"),
+                $data = ($this->$survey->find("all", array('fields' => array("$col as col1, $func($col) as cnt"),
                             'recursive' => 0,
                             'group' => $col)));
             else {
-                $tmp = $this->$survey->find("all", array("fields" => array("sum($group_by) as smtmp")));
+                $tmp = $this->$survey->find("all", array("fields" => array("sum($col) as smtmp")));
 //                debug($tmp);
                 $data = $this->$survey->find("all", array('fields' => array("$col as col1, "
-                        . "round(( sum($group_by)/" . $tmp[0][0]['smtmp'] . " * 100 ),2) as cnt"),
+                        . "round(( sum($col)/" . $tmp[0][0]['smtmp'] . " * 100 ),2) as cnt"),
 //                   . "(count($group_by)*100.0/sum($group_by)) as cnt"),
                     'recursive' => 0,
                     'group' => $col));
@@ -287,7 +294,7 @@ class SurveyAPIController extends AppController {
         $dir = new Folder(UPLOADS . 'dbbackups/');
 //        $path = UPLOADS . 'dbbackups/';
 //        debug($dir->find('.*\.sql'));
-        $this->response->file( UPLOADS . 'dbbackups/psu.sql');
+        $this->response->file(UPLOADS . 'dbbackups/psu.sql');
         return $this->response;
     }
 
@@ -644,6 +651,148 @@ class SurveyAPIController extends AppController {
                     'conditions' => array('user_id' => $userid),
                     'fields' => array('UserMessage.id as id', 'UserMessage.question_set_id as question_set_id',
                         'UserMessage.message_text as message_text', 'UserMessage.full_message as full_message', 'UserMessage.optional_data as optional_data')))));
+        }
+    }
+
+    public function generate_table_main($survey_id = null) {
+        if ($survey_id == 172 || $survey_id == 173) {
+            $survey_id_table = ( $survey_id == 172 ) ? "WaterPointSurvey" : "SanitationPointSurvey";
+            $q = "CREATE TABLE IF NOT EXISTS NMIS_" . $survey_id_table . "s ("
+                    . "`id` int(11) NOT NULL PRIMARY KEY, 
+                        `UserName` varchar(150) not null,
+                    `Latitude` varchar(20) DEFAULT NULL,
+                    `Longitude` varchar(20) DEFAULT NULL,
+                    `DistrictName` varchar(75) DEFAULT NULL,
+                    `UpzillaName` varchar(75) DEFAULT NULL,
+                    `UnionName` varchar(75) DEFAULT NULL,
+                    `VillageName` varchar(75) DEFAULT NULL,
+                    `Inserted` DATETIME NOT NULL,
+                    `Insertedby` varchar(75) NOT NULL,
+                    `WaterCode` varchar(25) DEFAULT NULL,
+                    `LandUseType` varchar(50) DEFAULT NULL,
+                    `OwnerType` varchar(50) DEFAULT NULL,
+                    `WaterPointType` varchar(50) DEFAULT NULL,
+                    `Year` varchar(4) DEFAULT NULL,
+                    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ";
+            $this->loadModel("Question");
+            $this->loadModel("UsersQuestionData");
+            $this->loadModel("QuestionAnswer");
+            $this->loadModel("SelectUnion");
+            $this->loadModel("SelectUpzilla");
+            $questions = $this->Question->find("list", array(
+                "conditions" => array("qsn_set_id" => $survey_id),
+                "order" => array("id")));
+            foreach ($questions as $key => $value) {
+                $value = str_replace("?", "", $value);
+                $value = str_replace(" ", "", $value);
+
+                $value = str_replace("(", "_", $value); //added on 5th may
+                $value = str_replace(")", "_", $value);
+
+                $q.=", `" . $value . "` varchar(250)";
+            }
+            $q.="  );";
+
+            $db = ConnectionManager::getDataSource('nmis');
+//            $dbDefault = ConnectionManager::getDataSource('default');
+//            echo $q;
+            $db->query($q);
+//            $db->query('alter table NMIS_' . $survey_id . 's convert to character set utf8 collate utf8_unicode_ci;');
+            $last_updated = $db->query("select inserted from NMIS_" . $survey_id_table . "s order by inserted desc limit 1; ");
+            $answers = array();
+            $fields = array('DISTINCT UsersQuestionData.id', 'SelectDistrict.district_name', 'UsersQuestionData.district_id',
+                'UsersQuestionData.geo_lat', 'UsersQuestionData.union_id', 'SelectUpzilla.Upzilla_name', 'SelectUnion.Union_name',
+                'UsersQuestionData.geo_lon', 'UsersQuestionData.insert_time', 'UsersQuestionData.water_code',
+                'User.user_name', 'UsersQuestionData.is_verify', 'UsersQuestionData.year',
+                'UsersQuestionData.upzilla_id', 'SelectLandType.land_use_name', 'SelectOwnership.ownership_name',
+                'SelectWaterPointType.water_point_type_name', 'UsersQuestionData.verify_time');
+//            $answers = $this->UsersQuestionData->find("all", array(
+//                'fields' => $fields,
+//                'order'=>array('UsersQuestionData.id desc'),
+//                "conditions" => array("qsn_set_master_id" => $survey_id,
+//                    )));
+            if (sizeof($last_updated) == 0) {
+                $answers = $this->UsersQuestionData->find("all", array(
+                    'fields' => $fields,
+                    "conditions" => array("qsn_set_master_id" => $survey_id)));
+            } else {
+                $answers = $this->UsersQuestionData->find("all", array('recursion' => 0,
+                    'fields' => $fields,
+                    "conditions" => array("qsn_set_master_id" => $survey_id,
+                        'UsersQuestionData.insert_time > ' => $last_updated[0]['NMIS_' . $survey_id_table . 's']['inserted'])));
+//                
+            }
+            if (sizeof($answers) != 0) {
+                try {
+                    foreach ($answers as $key => $value) {
+                        //echo ('upzilla '.$value['UsersQuestionData']['upzilla_id'].'district '.$value['UsersQuestionData']['district_id']);
+                        $upzilla = $this->SelectUpzilla->find("first", array(
+                            "fields" => array('upzilla_name', 'upzilla_id'),
+                            "conditions" => array("upzilla_code" => $value['UsersQuestionData']['upzilla_id'], //bad soln, check later
+                                "SelectDistrict.district_code" => $value['UsersQuestionData']['district_id'])));
+                        $union = $this->SelectUnion->find("first", array(
+                            'fields' => array('SelectUnion.union_name'),
+                            "conditions" => array("union_code" => $value['UsersQuestionData']['union_id'], //here code works, check wid mama
+                                "SelectUnion.upzilla_id" => $upzilla['SelectUpzilla']['upzilla_id'],)));
+                        $district = $this->UsersQuestionData->SelectDistrict->find("first", array(
+                            "fields" => array('district_name'),
+                            "conditions" => array("district_code" => $value['UsersQuestionData']['district_id'])));
+                        $dis = str_replace("'", "&#39;", (sizeof($district) > 0 ? $district['SelectDistrict']['district_name'] : ""));
+                        $insQ = "insert into NMIS_" . $survey_id_table . "s values('" . $value['UsersQuestionData']['id'] . "','"
+                                . $value['User']['user_name'] . "','"
+                                . $value['UsersQuestionData']['geo_lat'] . "','"
+                                . $value['UsersQuestionData']['geo_lon'] . "','"
+//                            . $value['SelectVillage']['village_name'] . "','"
+                                . $dis . "','"
+                                . (sizeof($upzilla) > 0 ? $upzilla['SelectUpzilla']['upzilla_name'] : '') . "','"
+                                . (sizeof($union) > 0 ? $union['SelectUnion']['union_name'] : '') . "','"
+                                . "','"
+                                . $value['UsersQuestionData']['insert_time'] . "','"
+                                . $value['User']['user_name'] . "','"
+                                . $value['UsersQuestionData']['water_code'] . "','"
+//                            . $value['UsersQuestionData']['image_url'] . "','"
+//                                . $value['UsersQuestionData']['is_verify'] . "','"
+//                                . $value['UsersQuestionData']['verify_time'] . "','"
+                                . $value['SelectLandType']['land_use_name'] . "','"
+                                . $value['SelectOwnership']['ownership_name'] . "','"
+                                . $value['SelectWaterPointType']['water_point_type_name'] . "','"
+                                . $value['UsersQuestionData']['year'] . "',now()";
+                        foreach ($questions as $quesKey => $qVal) {
+                            $qsnAns = ($this->QuestionAnswer->find("first", array("recursive" => -1,
+                                        "order" => array('QuestionAnswer.question_id'),
+                                        "conditions" => array(
+                                            'question_id' => $quesKey,
+                                            "user_qsn_data_id" => $value['UsersQuestionData']['id']))));
+
+                            if (sizeof($qsnAns) <= 0)
+                                $insQ.=",null";
+                            else {
+                                if (strpos($qsnAns['QuestionAnswer']['qsn_answer'], 'image/') === false)
+                                    $t = str_replace("'", "&#39;", $qsnAns['QuestionAnswer']['qsn_answer']);
+                                else {
+                                    $t = "http://mmds-wss.gov.bd/PSU/SurveyAPI/get_image_answer_id/" . $qsnAns['QuestionAnswer']['qsn_answer'];
+                                } $insQ.=",'" . $t . "'";
+                            }
+                        }
+//                    break;
+                        //echo $insQ . ");";
+                        $db->query($insQ . ");");
+                    }
+                } catch (Exception $ex) {
+                    debug($ex->getMessage());
+                }
+            }
+//            if ($this->Session->read('Auth.User.User.id')) {
+//                $this->loadModel("UserHistory");
+//                $this->UserHistory->create();
+//                $this->UserHistory->save(array('user_id' => $this->Session->read('Auth.User.User.id'),
+//                    'event_details' => "Generated Survey Report" . $this->request->header('User-Agent'),
+//                    'ipaddress' => $this->request->clientIp(),
+//                    'event_time' => $this->UserHistory->getDataSource()->expression('NOW()'),
+//                    'user_event' => 'Generated Survey Report',
+//                ));
+//            }
+            echo json_encode(sizeof($answers));
         }
     }
 

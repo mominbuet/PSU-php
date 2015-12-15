@@ -16,11 +16,11 @@
 
 
                             <?php
-                            echo "<div class=\"form-group\"> <label>question_set_id</label>";
-                            echo $this->Form->input('question_set_id', array('label' => false, 'class' => 'form-control'));
+                            echo "<div class=\"form-group\"> <label>Survey</label>";
+                            echo $this->Form->input('question_set_id', array('label' => false,'empty'=>'Select Survey', 'class' => 'form-control'));
                             echo '</div>';
-                            echo "<div class=\"form-group\"> <label>user_id</label>";
-                            echo $this->Form->input('user_id', array('empty'=>'Select Survey','label' => false, 'class' => 'form-control'));
+                            echo "<div class=\"form-group\"> <label>User</label>";
+                            echo $this->Form->input('user_id', array('empty'=>'Select User','label' => false, 'class' => 'form-control'));
                             echo '</div>';
 
                             echo "<div class=\"form-group\"> <label>Message Subject</label>";
@@ -36,7 +36,8 @@
                             echo $this->Form->input('optional_data', array('label' => false, 'class' => 'form-control'));
                             echo '</div>';
                             ?>
-                            <input type="submit" class="fa fa-plus btn btn-success" value="Add/Edit"/> </form>                        </div>
+                            <input type="submit" class="fa fa-plus btn btn-success" value="Add"/> <input type="button" style="margin-left:3%;" class="fa btn btn-success" value="Cancel" onclick="javascript:history.back();" />
+							</form>                        </div>
                     </div>
                 </div>
             </div>

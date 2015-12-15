@@ -70,5 +70,11 @@ button, html, input, select, textarea{
 }
 
 .fa-file{
-	color: #41A317!important;
+	color: #9FE8E2!important;
+}
+
+
+.panel-default>.panel-heading{
+    height: 500px;
+    overflow-x: auto;
 }

@@ -31,10 +31,10 @@ class UsersQuestionDataController extends AppController {
     public function summaryreport() {
         if ($this->Session->read('Auth.User.User.superuser') != 1)
             $this->set("surveys", $this->UsersQuestionData->QuestionSet->find('list', array(
-                        "conditions" => array("is_survey" => 1, 'owner' => $this->Session->read('Auth.User.User.id')))));
+                        "conditions" => array("is_survey" => 1, 'QuestionSet.is_active' => 1, 'owner' => $this->Session->read('Auth.User.User.id')))));
         else
             $this->set("surveys", $this->UsersQuestionData->QuestionSet->find('list', array(
-                        "conditions" => array("is_survey" => 1))));
+                        "conditions" => array("is_survey" => 1, 'QuestionSet.is_active' => 1,))));
     }
 
     public function map_shad($survey_id = null, $user_id = null) {
@@ -151,6 +151,7 @@ class UsersQuestionDataController extends AppController {
     public function map($survey_id = null, $user_id = null) {
         $this->loadModel('QuestionSet');
         $questionSets;
+        $users;
         $userQuestionData = array();
         $joins = array(
             array(
@@ -210,6 +211,7 @@ class UsersQuestionDataController extends AppController {
                             'UsersQuestionData.geo_lon', 'QuestionSet.qsn_set_name')
                 )));
             }
+            $users = $this->UsersQuestionData->User->find('list');
         } else {
 
             $questionSets = $this->QuestionSet->find('list', array(
@@ -252,12 +254,13 @@ class UsersQuestionDataController extends AppController {
                 else
                     $conditions = array('qsn_set_master_id' => $survey_id);
                 $userQuestionData = array('data' => $this->UsersQuestionData->find('all', array(
-                        'recursive' => 0, 'joins' => $joins,
+                        'recursive' => -1, 'joins' => $joins,
                         'conditions' => array('qsn_set_master_id' => $survey_id),
                         'fields' => array('User.user_name', 'UsersQuestionData.insert_time', 'UsersQuestionData.geo_lat',
                             'UsersQuestionData.geo_lon', 'QuestionSet.qsn_set_name')
                 )));
             }
+            $users = $this->UsersQuestionData->User->find('list', array('conditions' => array('User.created_by' => $this->Session->read('Auth.User.User.id'),)));
 //            else
 //                $userQuestionData = array('data' => $this->UsersQuestionData->find('all', array(
 //                        'recursive' => 0,
@@ -275,7 +278,7 @@ class UsersQuestionDataController extends AppController {
         else
             $this->set('set_user', 0);
 //        debug(array_keys($questionSets));
-        $users = $this->UsersQuestionData->User->find('list');
+
         $this->set('usersQuestionData', $userQuestionData);
         $this->set('users', $users);
 
@@ -283,8 +286,41 @@ class UsersQuestionDataController extends AppController {
     }
 
     public function surveychart() {
-        $this->set("surveys", $this->UsersQuestionData->QuestionSet->find('list', array(
-                    "conditions" => array("is_survey" => 1))));
+        if ($this->Session->read('Auth.User.User.superuser') != '1') {
+            
+            $this->loadModel("QuestionSet");
+            $questionSets = $this->QuestionSet->find('list', array(
+                'recursive' => -1,
+                'joins' => array(
+                    array(
+                        'table' => 'pmtc_question_group',
+                        'alias' => 'QuestionGroup',
+                        'type' => 'inner',
+                        'foreignKey' => true,
+                        'conditions' => array('QuestionGroup.question_set_id = QuestionSet.id')
+                    ), array(
+                        'table' => 'pmtc_user_groups',
+                        'alias' => 'UserGroup',
+                        'type' => 'inner',
+                        'foreignKey' => true,
+                        'conditions' => array('UserGroup.group_id = QuestionGroup.group_id')
+                    ),
+                    array(
+                        'table' => 'pmtc_users',
+                        'alias' => 'User',
+                        'type' => 'inner',
+                        'foreignKey' => true,
+                        'conditions' => array('User.id = UserGroup.user_id')
+                    ),
+                ),
+                'conditions' => array('User.id' => $this->Session->read('Auth.User.User.id'),
+                    'QuestionSet.is_active' => 1,
+                    'QuestionSet.is_survey' => 1)));
+            $this->set("surveys", $questionSets);
+        } else {
+            $this->set("surveys", $this->UsersQuestionData->QuestionSet->find('list', array(
+                        "conditions" => array("is_survey" => 1))));
+        }
     }
 
     public function rawreport() {
@@ -447,9 +483,9 @@ class UsersQuestionDataController extends AppController {
         if ($questionSetsInput) {
             $usersQuestionData = array();
             $fields = array('DISTINCT UsersQuestionData.id', 'UsersQuestionData.insert_time', 'UsersQuestionData.water_code',
-                'UsersQuestionData.geo_lat', 'UsersQuestionData.geo_lon','SelectOwnership.ownership_name',
-                'User.user_name', 'User.id', 'QuestionSet.id', 'SelectDistrict.district_name','SelectUpzilla.upzilla_name','SelectUnion.union_name',
-                'QuestionSet.qsn_set_name', 'UsersQuestionData.is_verify','SelectLandType.land_use_name');
+                'UsersQuestionData.geo_lat', 'UsersQuestionData.geo_lon', 'SelectOwnership.ownership_name',
+                'User.user_name', 'User.id', 'QuestionSet.id', 'SelectDistrict.district_name', 'SelectUpzilla.upzilla_name', 'SelectUnion.union_name',
+                'QuestionSet.qsn_set_name', 'UsersQuestionData.is_verify', 'SelectLandType.land_use_name');
             if (!$conditions) {
                 $this->Paginator->settings = array(
                     'fields' => $fields,

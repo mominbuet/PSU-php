@@ -11,6 +11,19 @@ class UserGroup extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
+    public $actsAs = array(
+        'Search.Searchable'
+    );
+    public $filterArgs = array(
+        'user_id' => array(
+            'type' => 'value',
+            'field' => 'user_id'
+        ),
+        'group_id' => array(
+            'type' => 'value',
+            'field' => 'group_id'
+        )
+    );
 /**
  * belongsTo associations
  *

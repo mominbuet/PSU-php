@@ -5,20 +5,20 @@
             <label>Select Survey </label>
             <?php
             echo $this->Form->input('survey_id', array('default' => $set_survey,
-                'options' => $questionSets, "name" => "survey_id",
-                'empty' => 'Select Survey',
-                'label' => false,
-                'class' => 'form-control'));
+            'options' => $questionSets, "name" => "survey_id",
+            'empty' => 'Select Survey',
+            'label' => false,
+            'class' => 'form-control'));
             ?>
         </div>
         <div class="col-lg-4 pull-right">
             <label>Select User </label>
             <?php
             echo $this->Form->input('user_id', array('default' => $set_user,
-                "name" => "user_id",
-                'empty' => 'Select User',
-                'label' => false,
-                'class' => 'form-control'));
+            "name" => "user_id",
+            'empty' => 'Select User',
+            'label' => false,
+            'class' => 'form-control'));
             ?>
         </div>
         <!-- /.col-lg-12 -->
@@ -28,14 +28,14 @@
     </div>
 </div>
 <?php // debug($usersQuestionData); ?>
-
-<div id="map-canvas" style="width: 100%;height: 100%;margin: 0px;padding: 10px; position: absolute"></div>
-
+<div class="col-lg-12">
+        <div id="map-canvas"  style="margin: 0px;height:800px;width:100%;padding: 10px; margin-bottom:2%"></div>
+</div>
 
 
 <script>
-    var inputs = <?php echo json_encode($usersQuestionData); ?>;
-    $(document).ready(function () {
+    var inputs = <?= json_encode($usersQuestionData); ?> ;
+            $(document).ready(function () {
         $("#btnSubmit").on("click", function () {
             if ($("#survey_id  option:selected").val() != 0) {
                 if ($("#user_id  option:selected").val() == 0)
@@ -48,17 +48,15 @@
         });
     });
     function initialize() {
-//        console.log(inputs);
-//        var locations = [
-//            ['Bondi Beach', -33.890542, 151.274856, 4],
-//            ['Coogee Beach', -33.923036, 151.259052, 5],
-//            ['Cronulla Beach', -34.028249, 151.157507, 3],
-//            ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-//            ['Maroubra Beach', -33.950198, 151.259302, 1]
-//        ];
         var mapOptions = {
             zoom: 10,
-            center: new google.maps.LatLng(23.7806365, 90.4193257)
+            center: new google.maps.LatLng(23.7806365, 90.4193257),
+                    zoomControl: true,
+                        zoomControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_TOP
+    },
+            scaleControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
         };
         var map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
@@ -98,18 +96,14 @@
 //                                    console.log(val);
 //                                    items.push("<p>" + val +" : "+ "</p>");
                                     contentString += "<tr><td>" + val.Question.qsn_desc + ":</td><td> " +
-                                            ((val.QuestionAnswer.qsn_answer.lastIndexOf("image/") >-1)?
-                                                    '<img width="100" src="/PSU/SurveyAPI/get_image_answer_id/'+val.QuestionAnswer.qsn_answer+'"/>'
+                                            ((val.QuestionAnswer.qsn_answer.lastIndexOf("image/") > -1) ?
+                                                    '<img width="100" src="/PSU/SurveyAPI/get_image_answer_id/' + val.QuestionAnswer.qsn_answer + '"/>'
                                                     : val.QuestionAnswer.qsn_answer)
-                                            +"</td></tr>";
-
+                                            + "</td></tr>";
                                 });
                                 infowindow.setContent(contentString);
                                 infowindow.open(map, marker);
                             });
-
-
-
 //                    if (marker.getAnimation() != null) {
 //                        marker.setAnimation(null);
 //                    } else {

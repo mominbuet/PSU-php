@@ -19,14 +19,14 @@
 </div>
 <!-- /.row -->
 <div class="row">
-    <div class="col-lg-12" id="divInfo" style ="margin-top: 20px;"></div>
+    <div class="col-lg-12" id="divInfo" style ="margin-top: 20px;margin-left: 20px;"></div>
 </div>
 <div class="row" style="margin-top: 20px;">
     <div class="col-lg-12" id="tmpView" style ="margin-top: 20px;">
-<!--        <div class="col-lg-4 " ><i class="fa fa-2x fa-folder-open"></i>Folder</div>
-        <div class="col-lg-4 " ><i class="fa fa-2x fa-file"></i>Folder</div>
-        <div class="col-lg-4 " ><i class="fa fa-2x fa-folder"></i>Folder</div>
-        <div class="col-lg-4"  style="background: #0a0"><i class="fa fa-3x fa-file"></i><span >Survey</span></div>-->
+        <!--        <div class="col-lg-4 " ><i class="fa fa-2x fa-folder-open"></i>Folder</div>
+                <div class="col-lg-4 " ><i class="fa fa-2x fa-file"></i>Folder</div>
+                <div class="col-lg-4 " ><i class="fa fa-2x fa-folder"></i>Folder</div>
+                <div class="col-lg-4"  style="background: #0a0"><i class="fa fa-3x fa-file"></i><span >Survey</span></div>-->
     </div>
 
 </div>
@@ -37,34 +37,38 @@
     var data = '<?php echo $treeJson; ?>';
     data = JSON.parse(data);
     var isSurveyMap = [];
-    $(document).ready(function() {
+    $(document).ready(function () {
         var pastDIV = null;
 
 
 //        console.log(data);
-        var item = 0;
-        $.each(data, function(ind, obj) {
+        var item = 0, parent_tmp = 0;
+        $.each(data, function (ind, obj) {
             isSurveyMap[obj.id] = obj.is_survey;
+
             if (obj.parent == "#") {
-                if (obj.is_survey == 0)
+                if (obj.is_survey == 0) {
                     $("#tmpView").append('<div style ="margin-top: 20px;" class="col-lg-4 glk" tag="folder" tagid="' + obj.id + '" ><i class="fa fa-3x fa-folder-open"></i>' + obj.text + '</div>');
-                else
+
+                } else
                     $("#tmpView").append('<div style ="margin-top: 20px;" class="col-lg-4 glk" tag="survey" tagid="' + obj.id + '"  ><i class="fa fa-3x fa-file"></i>' + obj.text + '</div>');
                 item++;
             }
-            else if (item === 0 && obj.is_survey == 0) {
+            else if ((parent_tmp == obj.parent || item === 0) && obj.is_survey == 0) {
+                parent_tmp = obj.parent;
+//                console.log(obj.text);
                 $("#tmpView").append('<div style ="margin-top: 20px;" class="col-lg-4 glk" tag="folder" tagid="' + obj.id + '" ><i class="fa fa-3x fa-folder-open"></i>' + obj.text + '</div>');
                 item++;
             }
         });
         $("#log").html("Item count: " + item);
-        $("div").on("dblclick", ".glk", function() {
+        $("div").on("dblclick", ".glk", function () {
             if ($(this).attr("tag") == "folder") {
                 $("#tmpView").html("");
                 $("#divInfo").html("");
                 var item = 0;
                 var folder = $(this);
-                $.each(data, function(ind, obj) {
+                $.each(data, function (ind, obj) {
                     if (obj.parent == folder.attr("tagid")) {
 
                         if (obj.is_survey == 0)
@@ -83,25 +87,40 @@
 
             //console.log(inFolder);
         });
-        $("div").on("click", ".glk", function() {
+        var currentlySelected = 0;
+        $("div").on("click",".glk",function () {
 //            if ($(this).attr("tag") == "folder")
 //                alert($(this).attr("tagid"));
 //            else{
             if (pastDIV !== null)
                 pastDIV.attr("style", "margin-top: 20px;");
+
+
+            if (pastDIV == $(this)) {
+                pastDIV = null;
+                $(this).attr("style", "background: #FFF;");
+            } else
+                $(this).attr("style", "margin-top: 20px;background: #0a0;");
             pastDIV = $(this);
-            $(this).attr("style", "margin-top: 20px;background: #0a0;");
             selectedIndex = $(this).attr("tagid");
-            if(isSurveyMap[selectedIndex]!=0){
+            if (isSurveyMap[selectedIndex] != 0) {
                 $("#addFolder").attr("disabled", true);
                 $("#addSurvey").attr("disabled", true);
                 $("#showSurvey").removeAttr("disabled");
             }
-            else{
+            else {
                 $("#addFolder").removeAttr("disabled");
                 $("#showSurvey").attr("disabled", true);
                 $("#addSurvey").removeAttr("disabled");
             }
+//            if(selectedIndex!==currentlySelected)
+//                currentlySelected = selectedIndex;
+//            else
+//            {
+////                selectedIndex=currentlySelected=0;
+//                pastDIV.attr("style", "margin-top: 20px;");
+////                pastDIV = null;
+//            }
 //            console.log("test" + selectedIndex);
 
 //            }
@@ -109,7 +128,7 @@
 
     });
     function showInfo() {
-        $.get(website + "UIAPI/getInfo/" + selectedIndex, function(data) {
+        $.get(website + "UIAPI/getInfo/" + selectedIndex, function (data) {
             $("#divInfo").html(data);
         });
     }
@@ -120,7 +139,7 @@
             $("#tmpView").html("");
             item = 0;
         }
-        $.each(data, function(ind, obj) {
+        $.each(data, function (ind, obj) {
 
             if (obj.parent == inFolder) {
 
@@ -153,22 +172,22 @@
             alert("Please select a survey to edit");
     }
     function removeItem() {
-		
+
         if (selectedIndex != "") {
-			if(selectedIndex == 132){
-				alert("You can't delete the ROOT folder!");
-				return false;
-			}
-			if(confirm("Are You sure to delete the folder?")){
-				$.post(website + "SurveyAPI/deleteAjax/" + selectedIndex, function(data) {
-					
-					if (data == "Success"){
-						alert("Successfully deleted data");
-						window.location = website + "QuestionSets/";
-						
-					}
-				});
-			}
+            if (selectedIndex == 132) {
+                alert("You can't delete the ROOT folder!");
+                return false;
+            }
+            if (confirm("Are You sure to delete the folder?")) {
+                $.post(website + "SurveyAPI/deleteAjax/" + selectedIndex, function (data) {
+
+                    if (data == "Success") {
+                        alert("Successfully deleted data");
+                        window.location = website + "QuestionSets/";
+
+                    }
+                });
+            }
 
         } else
             alert("Please select an item");
@@ -176,7 +195,7 @@
     function assignGroup() {
 //        console.log($("#group_id option:selected").val()+"---"+selectedIndex);
         $.get(website + "UIAPI/assignUser/" + $("#group_id option:selected").val() + "/" +
-                selectedIndex, function(data) {
+                selectedIndex, function (data) {
                     alert("Assigned");
                 });
     }
@@ -186,6 +205,7 @@
 //        alert(selectedIndex);
     }
     function addFolder() {
+        alert(selectedIndex);
         if (selectedIndex != "")
             if (selectedNode == null)
                 window.location = website + "QuestionSets/add/0/" + selectedIndex;

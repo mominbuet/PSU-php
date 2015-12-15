@@ -22,7 +22,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button id="btnMerge" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Assign</button>
+                    <button id="btnMerge" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Merge</button>
                 </div>
             </div>
         </div>
@@ -35,8 +35,7 @@
                     <div class="row">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
-                                <tr><th><input type="checkbox" class="form-control" id="checkAll"  /></th>
-                                    <th><?php echo $this->Paginator->sort('id'); ?></th>
+                                <tr><th style="width:4%"><input type="checkbox" class="form-control" id="checkAll"  /></th>
                                     <th><?php echo $this->Paginator->sort('group_name'); ?></th>
                                     <th>Question Sets Assigned</th>
                                     <th>Groups Assigned</th>
@@ -48,7 +47,6 @@
                                 <?php foreach ($groups as $group): ?>
                                     <tr>
                                         <td><input type="checkbox" class="form-control chkUser" value="<?php echo $group['Group']['id'] ?>" /></td>
-                                        <td><?php echo h($group['Group']['id']); ?>&nbsp;</td>
                                         <td><?php echo h($group['Group']['group_name']); ?>&nbsp;</td>
                                         <td><?= sizeof($group['QuestionGroup']) ?></td>
                                         <td><?= sizeof($group['UserGroup']) ?></td>

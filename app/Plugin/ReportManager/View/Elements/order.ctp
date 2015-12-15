@@ -1,7 +1,7 @@
     <!-- Copyright (c) 2012-2013 Luis E. S. Dias - www.smartbyte.com.br -->
     <fieldset>
         <legend><?php echo $modelClass; ?></legend>
-        <table class="reportManagerOrderSelector" cellpadding="0" cellspacing="0">
+        <table class="table table-bordered" cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
                     <td><?php echo __d('report_manager','Field'); ?></td>
@@ -20,6 +20,8 @@
                     array('name'=>'data[Report][OrderBy1]',
                         'legend'=>false,
                         'label'=>'',
+                        'style'=>' height: 12px;',
+                        'class'=>'input-xs form-control',
                         'type'=>'radio',
                         'default'=>( isset($this->data['Report']['OrderBy1']) && $this->data['Report']['OrderBy1'] == $modelClass.'.'.$field ? $modelClass.'.'.$field : ''),
                         'hiddenField' => false,
@@ -31,6 +33,8 @@
                     array('name'=>'data[Report][OrderBy2]',
                         'legend'=>false,
                         'label'=>false,
+                        'style'=>' height: 12px;',
+                        'class'=>'form-control',
                         'type'=>'radio',
                         'default'=>( isset($this->data['Report']['OrderBy2']) && $this->data['Report']['OrderBy2'] == $modelClass.'.'.$field ? $modelClass.'.'.$field : ''),
                         'hiddenField' => false,

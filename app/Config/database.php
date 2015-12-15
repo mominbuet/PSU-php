@@ -80,6 +80,16 @@ class DATABASE_CONFIG {
         'prefix' => 'pmtc_',
         'encoding' => 'utf8',
     );
+    public $nmis = array(
+        'datasource' => 'Database/Mysql',
+        'persistent' => false,
+        'host' => 'localhost',
+        'login' => 'root',
+        'password' => 'mspsu123#',
+        'database' => 'PSU_NMIS',
+        'prefix' => 'NMIS_',
+            //'encoding' => 'utf8',
+    );
     public $test = array(
         'datasource' => 'Database/Mysql',
         'persistent' => false,

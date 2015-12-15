@@ -28,7 +28,7 @@ class QuestionSetsController extends AppController {
         $allData;
 //        debug($this->Session->read('Auth.User.User.superuser'));
         if ($this->Session->read('Auth.User.User.superuser') != '1') {
-            $allData = $this->QuestionSet->find("all", array('order' => array('QuestionSet.is_survey'),
+            $allData = $this->QuestionSet->find("all", array('order' => array('QuestionSet.is_survey,parent_id' => 'desc'),
                 'joins' => array(
                     array(
                         'table' => 'pmtc_question_group',
@@ -64,7 +64,7 @@ class QuestionSetsController extends AppController {
                     'QuestionSet.is_active' => 1),
                 'fields' => array('DISTINCT QuestionSet.id', 'is_survey', 'QuestionSet.qsn_set_name', 'QuestionSet.parent_id')));
         } else {
-            $allData = $this->QuestionSet->find("all", array('order' => array('parent_id', 'is_survey'),
+            $allData = $this->QuestionSet->find("all", array('order' => array('parent_id' => 'asc'),
                 'conditions' => array('QuestionSet.is_active' => 1),
                 'fields' => array('DISTINCT QuestionSet.id', 'is_survey', 'QuestionSet.qsn_set_name', 'QuestionSet.parent_id')));
         }
@@ -145,8 +145,21 @@ class QuestionSetsController extends AppController {
                             'section_id' => $value['Question']['section_id'],
                             'section_name' => $value['Question']['section_name'],
                             'answer_length' => $value['Question']['answer_length']));
+                        $this->loadModel('QuestionType');
+                        $tmp = ($this->QuestionType->find("all", array("fields" => array("QuestionType.options"),
+                                    "conditions" => array('id' => $value['Question']['qsn_type_id']))));
+                        if ($tmp[0]['QuestionType']['options'] == 1) {
+                            $this->loadModel('SelectMisc');
+                            $t = ($this->SelectMisc->find("all", array("recursive" => -1, "conditions" => array('question_id' => $value['Question']['id']))));
+                            foreach($t as $k => $v) {
+                                $this->SelectMisc->create();
+                                $this->SelectMisc->save(array('question_id' => $this->Question->id,
+                                    'misc_option' => $v['SelectMisc']['misc_option'],
+//                                    'next_section_id' => $value['Question']['qsn_type_id'],
+                                    ));
+                            }
+                        }
                     }
-
 
                     $this->loadModel('UserHistory');
                     $this->UserHistory->create();

@@ -32,9 +32,9 @@ class SelectUpzillasController extends AppController {
         $this->SelectUpzilla->recursive = 0;
         $this->Prg->commonProcess();
         $this->Paginator->settings['conditions'] = $this->SelectUpzilla->parseCriteria($this->Prg->parsedParams());
-        $this->Paginator->settings['order'] = array('upzilla_id' => 'desc');
+        $this->Paginator->settings['order'] = array('upzilla_name' => 'asc');
         $this->set('selectUpzillas', $this->Paginator->paginate());
-        $districts = $this->SelectUpzilla->SelectDistrict->find('list');
+        $districts = $this->SelectUpzilla->SelectDistrict->find('list',array('order'=> array('district_name' => 'asc')));
         $this->set(compact('districts'));
     }
 

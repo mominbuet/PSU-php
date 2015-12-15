@@ -15,7 +15,7 @@ class UserGroupsController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator');
+    public $components = array('Paginator', 'Search.Prg');
 
     /**
      * index method
@@ -26,6 +26,7 @@ class UserGroupsController extends AppController {
         $this->loadModel('User');
 //loaded UserGroup from user
         //dont know why :(
+        $this->Prg->commonProcess();
         $fields = array('User.id', 'User.user_name', 'Group.id', 'Group.group_name', 'UserGroup.id');
         $joins = array(array(
                 'table' => 'pmtc_user_groups',
@@ -49,12 +50,16 @@ class UserGroupsController extends AppController {
             $userGroups = $this->Paginator->paginate('User');
             $groups = $this->UserGroup->Group->find('list', array('conditions' => array('created_by' => $this->Session->read('Auth.User.User.id'))));
             $this->set(compact('userGroups', 'groups'));
+            $this->set('users', $this->UserGroup->User->find('list',array('conditions'=>array('User.created_by'=>$this->Session->read('Auth.User.User.id')))));
         } else {
             $this->Paginator->settings = array('fields' => $fields, 'joins' => $joins,);
+            $this->Paginator->settings['conditions'] = $this->UserGroup->parseCriteria($this->Prg->parsedParams());
             $userGroups = $this->Paginator->paginate('User');
             $groups = $this->UserGroup->Group->find('list');
             $this->set(compact('userGroups', 'groups'));
+            $this->set('users', $this->UserGroup->User->find('list'));
         }
+        
     }
 
     /**

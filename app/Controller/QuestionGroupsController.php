@@ -16,7 +16,7 @@ class QuestionGroupsController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator', 'Session');
+    public $components = array('Paginator', 'Session', 'Search.Prg');
 
     /**
      * index method
@@ -25,12 +25,53 @@ class QuestionGroupsController extends AppController {
      */
     public function index() {
         $this->QuestionGroup->recursive = 0;
+        $this->Prg->commonProcess();
         if ($this->Session->read('Auth.User.User.superuser') != 1) {
-            $this->Paginator->settings = array('conditions' => array('QuestionGroup.created_by' => $this->Session->read('Auth.User.User.id')));
-            $this->set('questionGroups', $this->Paginator->paginate());
+            $this->Paginator->settings = array(
+                'order' => array('QuestionSet.is_survey' => "desc")
+                , 'conditions' => array('QuestionGroup.created_by' => $this->Session->read('Auth.User.User.id')));
+            $this->Paginator->settings['conditions'] = array_merge($this->Paginator->settings['conditions'], $this->QuestionGroup->parseCriteria($this->Prg->parsedParams()));
+            $this->set('groups', $this->QuestionGroup->Group->find('list', array('conditions' => array('Group.created_by' => $this->Session->read('Auth.User.User.id')))));
+            $this->loadModel("QuestionSet");
+            $questionSets = $this->QuestionSet->find('list', array(
+                'recursive' => -1,
+                'joins' => array(
+                    array(
+                        'table' => 'pmtc_question_group',
+                        'alias' => 'QuestionGroup',
+                        'type' => 'inner',
+                        'foreignKey' => true,
+                        'conditions' => array('QuestionGroup.question_set_id = QuestionSet.id')
+                    ), array(
+                        'table' => 'pmtc_user_groups',
+                        'alias' => 'UserGroup',
+                        'type' => 'inner',
+                        'foreignKey' => true,
+                        'conditions' => array('UserGroup.group_id = QuestionGroup.group_id')
+                    ),
+                    array(
+                        'table' => 'pmtc_users',
+                        'alias' => 'User',
+                        'type' => 'inner',
+                        'foreignKey' => true,
+                        'conditions' => array('User.id = UserGroup.user_id')
+                    ),
+                ),
+                'conditions' => array('User.id' => $this->Session->read('Auth.User.User.id'),
+                    'QuestionSet.is_active' => 1,
+                    'QuestionSet.is_survey' => 1)));
+            $this->set('questionSets', $questionSets);
         } else {
-            $this->set('questionGroups', $this->Paginator->paginate());
+            $this->Paginator->settings["order"] = array('QuestionSet.is_survey' => "desc");
+            $this->Paginator->settings['conditions'] = $this->QuestionGroup->parseCriteria($this->Prg->parsedParams());
+            $this->set('questionSets', $this->QuestionGroup->QuestionSet->find('list'));
         }
+//        $this->Paginator->settings['conditions'] = array_merge($this->Paginator->settings['conditions'], $this->QuestionGroup->parseCriteria($this->Prg->parsedParams()));
+//        debug($this->QuestionGroup->Group->find('list'));
+
+
+
+        $this->set('questionGroups', $this->Paginator->paginate());
     }
 
     /**

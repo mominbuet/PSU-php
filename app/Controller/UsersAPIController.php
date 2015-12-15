@@ -41,27 +41,34 @@ class UsersAPIController extends AppController {
         $username = $this->request->data['user'];
         $pass = $this->request->data['pass'];
         $imei = $this->request->data['imei'];
-//        $username = "test";
-//        $pass = "test123";
+		if(!$username){
+			$username = $this->request->query['user'];
+			$pass = $this->request->query['pass'];        
+		}
+        //$username = "test";
+        //$pass = "test123";
+		$inputs = $this->request;
+		
         $this->loadModel('User');
         $this->User->recursive = 0;
         $user = $this->User->find('first', array(
             'fields' => array('id', 'first_name', 'Device.id', 'Device.device_imei', 'last_name', 'msisdn', 'device_id'),
             'conditions' => array('user_name' => $username, 'password' => $pass)));
-        $this->loadModel("UserHistory");
-        $this->UserHistory->create();
-        $this->UserHistory->save(array('user_id' => $user['id'],
-            'event_details' => "Mobile user login" ,
-            'ipaddress' => $this->request->clientIp(),
-            'event_time' => $this->UserHistory->getDataSource()->expression('NOW()'),
-            'user_event' => 'Mobile user login',
-        ));
+        
         $this->response->disableCache();
 
         if ($user) {
+			$this->loadModel("UserHistory");
+			$this->UserHistory->create();
+			$this->UserHistory->save(array('user_id' => $user['User']['id'],
+				'event_details' => "Mobile user login" ,
+				'ipaddress' => $this->request->clientIp(),
+				'event_time' =>  date('Y-m-d H:i:s'),//$this->UserHistory->getDataSource()->expression('NOW()'),
+				'user_event' => 'Mobile user login',
+			));
             echo json_encode(array('status' => 'SUCCESS', 'user_info' => $user));
         } else {
-            echo json_encode(array('status' => 'ERROR', 'message' => 'User not found'));
+            echo json_encode(array('status' => 'ERROR', 'message' => 'User not found', 'req' => $inputs));
         }
     }
 

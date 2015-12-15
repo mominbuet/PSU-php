@@ -45,10 +45,10 @@ class SelectUnionsController extends AppController {
                 $upzillas = $this->SelectUnion->SelectUpzilla->find('list', 
                         array('conditions' => array('district_id' => $this->request->query['district_id'])));
             else
-                $upzillas = $this->SelectUnion->SelectUpzilla->find('list');
+                $upzillas = $this->SelectUnion->SelectUpzilla->find('list',array('order'=> array('upzilla_name' => 'asc')));
         } else
-            $upzillas = $this->SelectUnion->SelectUpzilla->find('list');
-        $districts = $this->SelectUnion->SelectUpzilla->SelectDistrict->find('list');
+            $upzillas = $this->SelectUnion->SelectUpzilla->find('list',array('order'=> array('upzilla_name' => 'asc')));
+        $districts = $this->SelectUnion->SelectUpzilla->SelectDistrict->find('list',array('order'=> array('district_name' => 'asc')));
         $this->set(compact('upzillas'));
         $this->set(compact('districts'));
     }

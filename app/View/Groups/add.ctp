@@ -15,14 +15,20 @@
 
 
                             <?php
-                            echo "<div class=\"form-group\"> <label>group_name</label>";
+                            echo '<div class=\"form-group\"> <label>group_name</label>';
                             echo $this->Form->input('group_name', array('label' => false, 'class' => 'form-control'));
                             echo '</div>';
-                            echo "<div class=\"form-group\"> <label>is_active</label>";
-                            echo $this->Form->input('is_active', array('type'=>'checkbox','label' => false, 'class' => 'form-control'));
-                            echo '</div>';
-                            ?>
-                            <input type="submit" class="fa fa-plus btn btn-success" value="Add"/> </form>                        </div>
+                            
+                            echo $this->Form->input('is_active', array('type'=>'checkbox','label' => false, 'class' => 'form-control', 'style' => 'width:20%'));
+							?>
+							<label style="float:left;margin-left:10%">is_active</label>
+							
+                            <div style="clear:both;margin-top:1%">
+                            <input type="submit" class="fa fa-plus btn btn-success" value="Add"/> 
+							<input type="button" style="margin-left:3%;" class="fa btn btn-success" value="Cancel" onclick="javascript:history.back();" />
+							</form>
+							</div>
+						</div>
                     </div>
                 </div>
             </div>

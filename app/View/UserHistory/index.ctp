@@ -13,10 +13,13 @@
 
     echo '<div class="col-lg-3"><label>Select User</label>';
     echo $this->Form->input('user_name', array('label' => false, 'default' => $set_user_name, 'type' => 'select', 'options' => $users, 'class' => 'form-control', 'empty' => 'Select User'));
-    echo '</div>';
-    echo '<div class="col-lg-3 col-lg-offset-2 "><label>Date</label>';
-    echo $this->Form->input('time', array('label' => false, 'type' => 'text', 'default' => $set_time, 'class' => 'form-control datepicker',));
     echo '</div></div><div class="col-lg-12">';
+    echo '<div class="col-lg-3  "><label>Date from</label>';
+    echo $this->Form->input('time_from', array('label' => false, 'type' => 'text', 'default' => $set_time_from, 'class' => 'form-control datepicker',));
+    echo '</div><div class="col-lg-3 col-lg-offset-2 "><label>Date to</label>';
+    echo $this->Form->input('time_to', array('label' => false, 'type' => 'text', 'default' => $set_time_to, 'class' => 'form-control datepicker',));
+    
+    echo '</div></div><div class="col-lg-12" style="padding-top:10px">';
     echo $this->Form->submit(__('Submit'), array('style'=>'padding-top:10px;','class' => "fa fa-plus btn btn-success col-lg-offset-7"));
     echo '</div>';
     echo $this->Form->end();

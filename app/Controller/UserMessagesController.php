@@ -25,6 +25,8 @@ class UserMessagesController extends AppController {
      */
     public function index() {
         $this->UserMessage->recursive = 0;
+        $this->Paginator->settings['conditions'] = array(
+            'User.created_by' => $this->Session->read('Auth.User.User.id'));
         $this->set('userMessages', $this->Paginator->paginate());
     }
 
@@ -50,11 +52,11 @@ class UserMessagesController extends AppController {
      */
     public function add() {
         if ($this->request->is('post')) {
-            
+
             if ($this->request->data['UserMessage']['user_id'] == '') {
                 $users = ($this->Reuse->getUsers($this->request->data['UserMessage']['question_set_id']));
 //                debug($users);
-                
+
                 foreach ($users as $k => $v) {
                     $this->UserMessage->create();
                     $this->request->data['UserMessage']['user_id'] = $k;
@@ -72,8 +74,18 @@ class UserMessagesController extends AppController {
                 }
             }
         }
-        $users = $this->UserMessage->User->find('list');
-        $questionSets = $this->UserMessage->QuestionSet->find('list');
+        $users;
+        $this->loadModel("UsersQuestionData");
+        if ($this->Session->read('Auth.User.User.superuser') != 1) {
+            $this->set("questionSets", $this->UsersQuestionData->QuestionSet->find('list', array(
+                        "conditions" => array("is_survey" => 1, 'owner' => $this->Session->read('Auth.User.User.id')))));
+            $users = $this->UsersQuestionData->User->find('list',array('conditions'=>array('User.created_by'=>$this->Session->read('Auth.User.User.id'),)));
+        } else {
+            $this->set("questionSets", $this->UsersQuestionData->QuestionSet->find('list', array(
+                        "conditions" => array("is_survey" => 1))));
+            $users = $this->UsersQuestionData->User->find('list');
+        }
+//        $questionSets = $this->UserMessage->QuestionSet->find('list');
         $this->set(compact('users', 'questionSets'));
     }
 

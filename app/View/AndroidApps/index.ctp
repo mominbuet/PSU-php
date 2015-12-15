@@ -2,7 +2,14 @@
     <div class="col-lg-12">
         <h1 class="page-header">
             <?php echo __('Versions'); ?></h1>
-        <?php echo $this->Html->link(__("Add Version"), array("action" => "add"),array("class"=>"btn btn-info pull-right")); ?>    </div>
+		
+		<a href="<?php echo $this->webroot.'uploads/dbbackups/psu.tgz'?>">Download Database Backup</a>
+		
+		<?php 
+		
+		
+ 
+		echo $this->Html->link(__("Add Version"), array("action" => "add"),array("class"=>"btn btn-info pull-right")); ?>    </div>
     <!-- /.col-lg-12 -->
 </div>
 <div class="row">

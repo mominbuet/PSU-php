@@ -2,7 +2,7 @@
     <div class="col-lg-12">
 
         <?php
-        echo '<div class="col-lg-12"><div class="col-lg-8">';
+        echo '<div class="col-lg-12"><div class="col-lg-8" style="padding-top:10px;">';
         echo "<div class='form-group col-lg-4'> <label>Survey Name</label>";
         echo $this->Form->input('survey_id', array('options' => $surveys, "name" => "survey_id", 'empty' => 'Select Survey',
             'label' => false,

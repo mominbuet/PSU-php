@@ -87,9 +87,9 @@ class PagesController extends AppController {
         $this->loadModel("UsersQuestionData");
         $this->loadModel("QuestionSets");
         $this->loadModel("Users");
-        $this->set('answerCount', $this->UsersQuestionData->find('count', array('recursive' => -1)));
-        $this->set('usersCount', $this->Users->find('count', array('recursive' => -1)));
-        $this->set('qsetCount', $this->QuestionSets->find('count', array('recursive' => -1)));
+
+
+
         $this->loadModel('QuestionSet');
         $questionSets;
         $userQuestionData = array();
@@ -130,14 +130,44 @@ class PagesController extends AppController {
                 'conditions' => array('QuestionGroup.question_set_id = QuestionSet.id')
             ),
         );
+        $joins2 = array(
+            array(
+                'table' => 'pmtc_question_group',
+                'alias' => 'QuestionGroup',
+                'type' => 'inner',
+                'foreignKey' => true,
+                'conditions' => array(' QuestionSets.id=QuestionGroup.question_set_id')
+            ),
+            array(
+                'table' => 'pmtc_groups',
+                'alias' => 'Group',
+                'type' => 'inner',
+                'foreignKey' => true,
+                'conditions' => array('QuestionGroup.group_id = Group.id')
+            ),
+            array(
+                'table' => 'pmtc_user_groups',
+                'alias' => 'UserGroup',
+                'type' => 'inner',
+                'foreignKey' => true,
+                'conditions' => array('UserGroup.group_id = Group.id')
+            ),
+            array(
+                'table' => 'pmtc_users',
+                'alias' => 'User',
+                'type' => 'inner',
+                'foreignKey' => true,
+                'conditions' => array('UserGroup.user_id = User.id')
+            ),
+        );
         if ($this->Session->read('Auth.User.User.superuser') == '1') {
 
             $questionSets = $this->QuestionSet->find('list', array(
                 'recursive' => -1,
                 'conditions' => array('QuestionSet.is_active' => 1,
                     'QuestionSet.is_survey' => 1)));
-
-
+            $this->set('qsetCount', $this->QuestionSets->find('count', array('recursive' => -1)));
+            $this->set('usersCount', $this->Users->find('count', array('recursive' => -1)));
             $userQuestionData = array('data' => $this->UsersQuestionData->find('all', array(
                     'recursive' => -1,
                     'joins' => $joins,
@@ -149,15 +179,23 @@ class PagesController extends AppController {
             )));
         } else {
 
-
+            $this->set('usersCount', $this->Users->find('count', array('conditions'=>array('created_by' => $this->Session->read('Auth.User.User.id')), 'recursive' => -1)));
+//            debug($this->Users->find('count', array('conditions'=>array( 'created_by' => $this->Session->read('Auth.User.User.id')), 'recursive' => -1)));
+            $this->set('qsetCount', $this->QuestionSets->find('count', array('joins' => $joins2,
+                        'conditions' => array('QuestionSets.is_survey' => 1,
+                            'OR' => array('QuestionSets.owner' => $this->Session->read('Auth.User.User.id'),
+                                'User.id' => $this->Session->read('Auth.User.User.id'))),
+                        'recursive' => -1)));
             $userQuestionData = array('data' => $this->UsersQuestionData->find('all', array(
                     'recursive' => 0,
-                    'conditions' => array('QuestionSet.is_active' => 1,
+                    'conditions' => array('QuestionSet.is_active' => 1, 'User.id' => $this->Session->read('Auth.User.User.id'),
                         'QuestionSet.is_survey' => 1),
                     'fields' => array('User.user_name', 'UsersQuestionData.insert_time', 'UsersQuestionData.geo_lat',
                         'UsersQuestionData.geo_lon', 'QuestionSet.qsn_set_name')
             )));
         }
+
+        $this->set('answerCount', sizeof($userQuestionData['data']));
         $this->set('usersQuestionData', $userQuestionData);
     }
 

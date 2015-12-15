@@ -209,6 +209,9 @@ class QuestionsController extends AppController {
             $data_array +=array($qtype['QuestionType']['id'] . 'id' => $qtype['QuestionType']['options']);
         }
         $validityRules = $this->Question->ValidationRule->find('list');
+        $this->set('setID', $qsn_set_id);
+        $this->set('validity_rule_id',
+                ($this->Question->find("all",array('conditions'=>array('Question.id'=>$id),'fields'=>array('Question.validity_rule_id'),'recursion'=>-1))));
         $this->set(compact('questionSets', 'qsnSections', 'prev_section', 'data_array', 'qsnTypes', 'validityRules'));
     }
 

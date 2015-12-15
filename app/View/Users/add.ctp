@@ -23,6 +23,9 @@
                             echo "<div class=\"form-group\"> <label>Password</label>";
                             echo $this->Form->input('password', array('label' => false, 'class' => 'form-control'));
                             echo '</div>';
+							echo "<div class=\"form-group\"> <label>Retype Password</label>";
+                            echo $this->Form->input('re_password', array('label' => false, 'type' =>'password', 'class' => 'form-control'));
+                            echo '</div>';
                             echo "<div class=\"form-group\"> <label>First name</label>";
                             echo $this->Form->input('first_name', array('label' => false, 'class' => 'form-control'));
                             echo '</div>';
@@ -45,7 +48,7 @@
                                 echo "<div class=\"form-group\"> <label>Device ID</label>";
                                 echo $this->Form->input('device_id', array('option' => $devices, 'empty' => '<--Unassigned-->', 'label' => false, 'class' => 'form-control'));
                                 echo '</div>';
-                                echo '<input type="submit" class="fa fa-plus btn btn-success" value="Add"/> ';
+                                echo '<input type="submit" class="fa fa-plus btn btn-success" value="Add"/> <input type="button" style="margin-left:3%;" class="fa btn btn-success" value="Cancel" onclick="javascript:history.back();" />';
                             } else
                                 echo 'Please add Device before inserting the user';
                             ?>

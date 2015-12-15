@@ -9,7 +9,7 @@
             Policy Support Unit :: Online Dashboard for Mobile Survey Monitoring
             <?php //echo $this->fetch('title'); ?>
         </title>
-        <link href="/PSU/images/favicon.ico" type="image/x-icon" rel="icon">
+		<link href="/PSU/images/favicon.ico" type="image/x-icon" rel="icon">
         <?php
         //echo $this->Html->meta('icon');
         echo $this->fetch('meta');
@@ -17,7 +17,7 @@
         echo $this->Html->css('font-awesome.min');
         echo $this->Html->css('sb-admin-2');
         echo $this->Html->css('metisMenu');
-		echo $this->Html->css('jquery-ui');
+
         echo $this->Html->css('simonstyle');
 
         echo $this->Html->script('jquery.min');
@@ -26,7 +26,7 @@
         $logindata = $this->Session->read("LoginSession");
 
         ?>
-        <link rel="stylesheet" type="text/css" href="">
+        <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
 
     </head>
     <body role="document">
@@ -51,16 +51,15 @@
 
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header" style="width:80%;">
+                <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <img style="float:left;margin-right:1%" src="/PSU/img/bd_govt_logo.png" alt="Govt Logo" />
-                    <span style="font-weight:bold;font-size:large">Mobile Based Monitoring Water Supply and Sanitation Data Entry System <br/>with Web Based Dashboard Facility for Analysis and Report Generation</span>
-                    <!--a class="navbar-brand" href="/PSU/Pages/">Policy Support Unit</a-->
+                    <img style="float:left" src="/PSU/img/psu_logo.png" alt="PSU Logo" />
+                    <a class="navbar-brand" href="/PSU/Pages/">Policy Support Unit</a>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -313,9 +312,6 @@
                                 <a href="/PSU/UserHistory"><i class="fa fa-history fa-fw"></i> User Log</a>
                             </li>
                             <li>
-                                <a href="/PSU/UserHistory/aboutMmds"><i class="fa fa-file fa-fw"></i> About MMDS</a>
-                            </li>
-                            <li>
                                 <a href="/PSU/Pages/login/1"><i class="fa fa-files-o fa-fw"></i> logout</a>
                             </li>
                             <!--                            <li>
@@ -331,7 +327,6 @@
                                                              /.nav-second-level 
                                                         </li>-->
                         </ul>
-						<div><img style="margin-left:40%;margin-top:5%" src="/PSU/img/psu_logo_new.png" /><p style="clear:both;text-align:center">Policy Support Unit<br/> Local Government Division	<br/>Ministry of LGRD&C	<br/>Bangladesh	</p></div>
                     </div>
                     <!-- /.sidebar-collapse -->
                 </div>
@@ -377,10 +372,5 @@
 //                });
             });
         </script>
-        <footer class="footer" style="background-color:#72C172;clear:both;margin-top:1%">
-            <div class="container" style="margin-left:30%">
-                <p style="font-weight:bold">Copyright@Policy Support Unit, Local Government Division. All right reserved.</p>
-            </div>
-        </footer>
     </body>
 </html>

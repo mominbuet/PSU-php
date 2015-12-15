@@ -35,7 +35,12 @@ class UIAPIController extends AppController {
     public function get_options_for_question_edit($questionID = null) {
         if ($questionID) {
             $this->loadModel('SelectMisc');
-            echo json_encode($this->SelectMisc->find('list', array('conditions' => array('question_id' => $questionID))));
+            $ret = $this->SelectMisc->find('list', array('conditions' => array('question_id' => $questionID)));
+//            if(sizeof($ret)==0)
+//            {
+//            $this->loadModel('SelectMisc');    
+//            }
+            echo json_encode($ret);
         }
     }
 
@@ -52,6 +57,7 @@ class UIAPIController extends AppController {
 //                        'foreignKey' => true,
 //                        'conditions' => array('SelectUpzilla.district_id = SelectDistrict.district_id')
 //                    )),
+                'order' => array('upzilla_name' => 'asc'),
                 'conditions' => array('SelectUpzilla.district_id' => $district_id)));
 //            $this->set('users');
             $ret.='<option value="">Select Upzilla</option>';
@@ -77,6 +83,7 @@ class UIAPIController extends AppController {
                         'foreignKey' => true,
                         'conditions' => array('SelectUpzilla.district_id = SelectDistrict.district_id')
                     )),
+                'order' => array('upzilla_name' => 'asc'),
                 'conditions' => array('SelectDistrict.district_code' => $district_code)));
 //            $this->set('users');
 
@@ -108,6 +115,7 @@ class UIAPIController extends AppController {
                         'foreignKey' => true,
                         'conditions' => array('SelectUpzilla.district_id = SelectDistrict.district_id')
                     )),
+                'order' => array('union_name' => 'asc'),
                 'conditions' => ($upzilla_code) ? array('SelectDistrict.district_code' => $district_code,
                     'SelectUpzilla.upzilla_code' => $upzilla_code) : array('SelectDistrict.district_code' => $district_code)
             ));
@@ -244,6 +252,33 @@ class UIAPIController extends AppController {
             }
             echo "Inserted ";
         }
+    }
+
+    public function getValidationEdit($qset = null, $qsn_type_id = null) {
+        $this->loadModel("ValidationRule");
+        $this->loadModel("Question");
+        $rule_id = ($this->Question->find("all",array('conditions'=>array('Question.id'=>$qset),'fields'=>array('Question.validity_rule_id'),'recursion'=>-1)));
+        $columns = $this->ValidationRule->find("list", array('conditions' => array("qsn_type_id" => $qsn_type_id,
+                "parent_id" => null)));
+        $ret = '<option value="">Select if any</option>';
+//        debug($columns);
+        foreach ($columns as $key => $value) {
+
+            $tmp = $this->ValidationRule->find("list", array('conditions' => array("parent_id" => $key)));
+            if (sizeof($tmp) != 0) {
+                $ret.="<optgroup label='$value'>";
+                foreach ($tmp as $key2 => $value2) {
+//                    if($key2==$rule_id[0]['Question']['validity_rule_id'])
+//                        $ret.="<option selected value='$key2'>$value2</option>";
+//                    else    
+                     $ret.="<option value='$key2'>$value2</option>";
+                }
+                $ret.="</optgroup>";
+            } else {
+                $ret.="<option value='$key'>$value</option>";
+            }
+        }
+        echo $ret;
     }
 
     public function getValidation1($qsn_type_id = null) {

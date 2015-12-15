@@ -13,43 +13,45 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <div class="panel panel-default">
+        <div class="">
             <div class="panel-heading">
                 <?php echo __('All Users'); ?>                <div class="panel-body">
                     <div class="row">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                                 <tr>
-                                    <th><?php echo $this->Paginator->sort('id'); ?></th>
                                     <th><?php echo $this->Paginator->sort('user_name'); ?></th>
                                     <!--<th><?php //echo $this->Paginator->sort('password');  ?></th>-->
                                     <th><?php echo $this->Paginator->sort('first_name'); ?></th>
                                     <th><?php echo $this->Paginator->sort('last_name'); ?></th>
                                     <th><?php echo $this->Paginator->sort('msisdn'); ?></th>
-                                    <th><?php echo $this->Paginator->sort('device_id'); ?></th>
+                                    <th>User Type</th>
                                     <th>Groups Assigned</th>
                                     <th>Survey Entries</th>
                                     <th><?php echo $this->Paginator->sort('is_active'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('created_by'); ?></th>
                                     <th class="actions"><?php echo __('Actions'); ?></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($users as $user): ?>
                                 <tr>
-                                    <td><?php echo h($user['User']['id']); ?>&nbsp;</td>
+                                    <!-- td><?php echo h($user['User']['id']); ?>&nbsp;</td -->
                                     <td><?php echo h($user['User']['user_name']); ?>&nbsp;</td>
                                     <!--                                        <td><?php //echo h($user['User']['password']);  ?>&nbsp;</td>-->
                                     <td><?php echo h($user['User']['first_name']); ?>&nbsp;</td>
                                     <td><?php echo h($user['User']['last_name']); ?>&nbsp;</td>
                                     <td><?php echo h($user['User']['msisdn']); ?>&nbsp;</td>
-                                    <td><?php echo h($user['Device']['device_visible_id']); ?>&nbsp;</td>
+                                    <td><?php echo (h($user['User']['superuser']) == 1) ? "Super User" : "General" ; ?>&nbsp;</td>
                                     <td><?= sizeof($user['UserGroup']) ?></td>
                                     <td><?= sizeof($user['UsersQuestionData']) ?></td>
                                     <td><?php echo h($user['User']['is_active']); ?>&nbsp;</td>
+                                    
+                                    <td><?php echo h($user['CreatedBy']['first_name']." ".$user['CreatedBy']['last_name']); ?>&nbsp;</td>
                                     <td class="actions">
                                         <?php // echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['id'])); ?>
                                         
-                                        <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
+                                        <?php if ($this->Session->read('Auth.User.User.superuser') == '1' || $this->Session->read('Auth.User.User.id')==$user['User']['created_by']): ?>
                                         <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['id']), array('class' => 'btn btn-sm btn-warning')); ?>
                                         <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $user['User']['id']), array('class' => 'btn btn-sm btn-danger'), __('This will delete the group assignment of %s!', $user['User']['user_name']));
                                         ?>

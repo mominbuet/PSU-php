@@ -24,7 +24,7 @@
     echo '<div class="col-lg-3 col-lg-offset-2 "><label>Select Upzilla</label>';
     echo $this->Form->input('upzilla_id', array('label' => false, 'type' => 'select', 'options' => $upzillas, 'class' => 'form-control', 'empty' => 'Select Upzilla'));
     echo '</div></div><div class="col-lg-12">';
-    echo $this->Form->submit(__('Submit'), array('style'=>'margin-top:1%','class' => "fa fa-plus btn btn-success col-lg-offset-7"));
+    echo $this->Form->submit(__('Submit'), array('style'=>'padding-top:10px;','class' => "fa fa-plus btn btn-success col-lg-offset-7"));
     echo '</div>';
     echo $this->Form->end();
     ?>
@@ -40,10 +40,9 @@
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                                 <tr class="success">
-									<th><?php echo $this->Paginator->sort('district_id'); ?></th>
-                                    
-                                    <th><?php echo $this->Paginator->sort('upzilla_id'); ?></th>
                                     <th><?php echo $this->Paginator->sort('union_name'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('upzilla_id'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('district_id'); ?></th>
                                     <th><?php echo $this->Paginator->sort('union_code'); ?></th>
                                     <th class="actions"><?php echo __('Edit'); ?></th>
                                     <th class="actions"><?php echo __('Delete'); ?></th>
@@ -53,15 +52,13 @@
                                 <?php foreach ($selectUnions as $selectUnion): ?>
 
                                 <tr>
-									<td>
-                                        <?php echo $this->Html->link($selectUnion['SelectDistrict']['district_name'], array('controller' => 'select_districts', 'action' => 'view', $selectUnion['SelectDistrict']['district_id'])); ?>
-                                    </td>
-									<td>
+                                    <td><?php echo h($selectUnion['SelectUnion']['union_name']); ?>&nbsp;</td>
+                                    <td>
                                         <?php echo $this->Html->link($selectUnion['SelectUpzilla']['upzilla_name'], array('controller' => 'select_upzillas', 'action' => 'view', $selectUnion['SelectUpzilla']['upzilla_id'])); ?>
                                     </td>
-                                    <td><?php echo h($selectUnion['SelectUnion']['union_name']); ?>&nbsp;</td>
-                                    
-                                    
+                                    <td>
+                                        <?php echo $this->Html->link($selectUnion['SelectDistrict']['district_name'], array('controller' => 'select_districts', 'action' => 'view', $selectUnion['SelectDistrict']['district_id'])); ?>
+                                    </td>
                                     <td><?php echo h($selectUnion['SelectUnion']['union_code']); ?>&nbsp;</td>
                                     <td class="actions">
                                         <?php //echo $this->Html->link(__('View'), array('action' => 'view', $selectUnion['SelectUnion']['union_id'])); ?>

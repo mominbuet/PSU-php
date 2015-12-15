@@ -17,7 +17,7 @@
         echo $this->Html->css('font-awesome.min');
         echo $this->Html->css('sb-admin-2');
         echo $this->Html->css('metisMenu');
-		echo $this->Html->css('jquery-ui');
+
         echo $this->Html->css('simonstyle');
 
         echo $this->Html->script('jquery.min');
@@ -26,7 +26,7 @@
         $logindata = $this->Session->read("LoginSession");
 
         ?>
-        <link rel="stylesheet" type="text/css" href="">
+        <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
 
     </head>
     <body role="document">
@@ -58,8 +58,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <img style="float:left;margin-right:1%" src="/PSU/img/bd_govt_logo.png" alt="Govt Logo" />
-                    <span style="font-weight:bold;font-size:large">Mobile Based Monitoring Water Supply and Sanitation Data Entry System <br/>with Web Based Dashboard Facility for Analysis and Report Generation</span>
+                    <img style="float:left;margin-right:1%" src="/PSU/img/bd_govt_logo.gif" alt="Govt Logo" />
+                    <span style="font-weight:bold;font-size:large">Mobile Based Monitoring Water Supply and Sanitation Data Entry Sytem 
+                        with Web Based Dashboard Facility for Analysis and Report Generation</span>
                     <!--a class="navbar-brand" href="/PSU/Pages/">Policy Support Unit</a-->
                 </div>
                 <!-- /.navbar-header -->
@@ -331,7 +332,6 @@
                                                              /.nav-second-level 
                                                         </li>-->
                         </ul>
-						<div><img style="margin-left:40%;margin-top:5%" src="/PSU/img/psu_logo_new.png" /><p style="clear:both;text-align:center">Policy Support Unit<br/> Local Government Division	<br/>Ministry of LGRD&C	<br/>Bangladesh	</p></div>
                     </div>
                     <!-- /.sidebar-collapse -->
                 </div>
@@ -377,9 +377,9 @@
 //                });
             });
         </script>
-        <footer class="footer" style="background-color:#72C172;clear:both;margin-top:1%">
-            <div class="container" style="margin-left:30%">
-                <p style="font-weight:bold">Copyright@Policy Support Unit, Local Government Division. All right reserved.</p>
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted"><a href="mailto:copyright@policy.com">Copyright@Policy</a> Support Unit, Local Government Division. All right reserved.</p>
             </div>
         </footer>
     </body>

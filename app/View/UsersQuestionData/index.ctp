@@ -3,40 +3,43 @@
     {
         overflow:scroll;
     }
+    .col-lg-3{
+        margin-left:1px !important;
+    }
 </style>
 <div class="row">;
     <div class="col-lg-12">
         <h1 class="page-header">
             <?php echo __('Users Question Answers'); ?></h1>
-        <?php echo $this->Html->link(__('See Full Map'), array('action' => 'map'), array('class' => 'btn btn-primary pull-right')); ?>
+
         <!-- /.col-lg-12 -->
     </div>
     <div class="row">
         <div class="col-lg-12">
             <?php
             echo $this->Form->create("UsersQuestionData", array("type" => "get", 'class' => 'form-horizontal', 'role' => 'form', "action" => "index"));
-            echo '<div class="col-lg-12"><div class="col-lg-8">';
-            echo "<div class='form-group col-lg-4'> <label>Select Survey </label>";
+            echo '<div class="col-lg-12">';
+            echo "<div class='form-group col-lg-3'> <label>Select Survey </label>";
             echo $this->Form->input('questionSets', array('label' => false, 'div' => false, 'class' => 'form-control', 'empty' => 'Select Survey',
             'default' => $set_qset));
             echo '</div>';
-            echo "<div class='form-group col-lg-4 pull-right'> <label>User Name</label>";
+            echo "<div class='form-group col-lg-3'> <label>User Name</label>";
             echo $this->Form->input('user_id', array('default' => $set_user, 'div' => false,
             'label' => false, 'class' => 'form-control', 'empty' => 'Select User'));
 
-            echo '</div></div><div class="col-lg-8">';
-            echo "<div class='form-group col-lg-4'> <label>Date From</label>";
+            echo '</div>';
+            echo "<div class='form-group col-lg-3'> <label>Date From</label>";
             echo $this->Form->input('Date_from', array('label' => false, 'div' => false, 'class' => 'form-control datepicker'));
             echo '</div>';
-            echo "<div class='form-group  col-lg-4 pull-right'> <label>Date To</label>";
+            echo "<div class='form-group  col-lg-3'> <label>Date To</label>";
             echo $this->Form->input('Date_To', array('label' => false, 'div' => false, 'class' => 'form-control datepicker'));
 
-            echo '</div></div><div id="duplicateDIV" class="col-lg-8">';
-            echo "<div class='form-group form-inline col-lg-4'> <label>Duplicate&nbsp;&nbsp;</label>";
+            echo '</div></div><div id="duplicateDIV" class="col-lg-8" style="width:40%">';
+            echo "<div class='form-group form-inline col-lg-4'> <label>Tracking&nbsp;&nbsp;</label>";
             echo $this->Form->input('duplicate', array('label' => false, 'type' => 'checkbox', 'default' => $duplicate, 'div' => false, 'class' => 'form-control '));
-            echo '</div></div></div>';
+            echo '</div></div>';
             ?>
-            <div class="col-lg-8">
+            <div class="col-lg-8" style="width:20%;float:right;margin-right:5%">
                 <input type="submit" class="fa fa-plus btn btn-success pull-right"  value="Search"/> 
             </div></form> 
         </div>
@@ -49,7 +52,7 @@
                 <div class="panel-heading">
                     <?php echo __('All Users Question answers'); ?>      </div>       
                 <div class="panel-body">
-                    <div class="table-responsive">
+                    <div class="table-responsive col-lg-12" style="height: 400px; overflow-x: auto">
                         <table class="table table-striped table-bordered table-hover" >
                             <thead>
                                 <tr>
@@ -80,7 +83,9 @@
                                 <tr>
                                     <!--<td><?php // echo h($usersQuestionData['UsersQuestionData']['id']);              ?>&nbsp;</td>-->
                                     <td>
-                                        <?php echo $this->Html->link($usersQuestionData['User']['user_name'], array('controller' => 'users', 'action' => 'view', $usersQuestionData['User']['id'])); ?>
+                                        <!--<?php echo $this->Html->link($usersQuestionData['User']['user_name'], array('controller' => 'users', 'action' => 'view', $usersQuestionData['User']['id'])); ?>-->
+                                    <?php echo h($usersQuestionData['User']['user_name']); ?>&nbsp;
+
                                     </td>
                                     <!--                                        <td>
                                     <?php //echo $this->Html->link($usersQuestionData['QuestionSet']['qsn_set_name'], array('controller' => 'question_sets', 'action' => 'view', $usersQuestionData['QuestionSet']['id'])); ?>
@@ -212,7 +217,7 @@
         });
 
         //getUsers( < ? = $set_user ? > );
-        getUsers( < ?php echo $set_user; ? > );
+        getUsers( <?php echo $set_user; ?> );
                 $(".answers").click(function () {
             var res = $(this).attr('flg');
             $('.modal-body').html("");

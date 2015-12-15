@@ -7,6 +7,8 @@ echo $this->Html->script('jquery-ui.min');
         <h1 class="page-header">All Questions</h1>
 
         <?php
+		echo $this->Html->link(__('Back To Surveys'), array('controller'=> 'QuestionSets', 'action' => 'index'), array('class' => 'btn btn-info pull-right', 'style' => 'margin-left:1%'));
+		
         echo $this->Html->link(__('Add more to this Survey'), array('action' => 'add', $setID), array('class' => 'btn btn-info pull-right'));
         ?>
     </div>
@@ -15,7 +17,7 @@ echo $this->Html->script('jquery-ui.min');
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-12">
-        <div class="panel panel-default">
+        <div class="">
             <div class="panel-heading">
                 Questions :
                 <div class="panel-body">

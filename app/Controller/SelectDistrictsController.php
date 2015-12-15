@@ -26,7 +26,7 @@ class SelectDistrictsController extends AppController {
         $this->SelectDistrict->recursive = 0;
         $this->Prg->commonProcess();
         $this->Paginator->settings['conditions'] = $this->SelectDistrict->parseCriteria($this->Prg->parsedParams());
-        $this->Paginator->settings['order']=array('district_name'=>'asc'); 
+        $this->Paginator->settings['order']=array('district_name'=>'desc'); 
         $this->set('selectDistricts', $this->Paginator->paginate());
         $divisions = $this->SelectDistrict->SelectDivision->find('list');
         $this->set(compact('divisions'));

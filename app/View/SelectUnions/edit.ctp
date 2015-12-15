@@ -28,7 +28,10 @@
                             echo $this->Form->input('union_code', array('label' => false, 'type' => 'text', 'class' => 'form-control'));
                             echo '</div>';
                             ?>
-                            <input type="submit" class="fa fa-plus btn btn-success" value="Add/Edit"/> </form>                        </div>
+                            <input type="submit" class="fa fa-plus btn btn-success" value="Update"/> 
+							<input type="button" style="margin-left:3%;" class="fa btn btn-success" value="Cancel" onclick="javascript:history.back();" />
+							</form>                        
+						</div>
                     </div>
                 </div>
             </div>

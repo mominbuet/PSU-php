@@ -18,7 +18,7 @@
                                     <th>Survey</th>
                                     <th><?php echo $this->Paginator->sort('qsn_desc'); ?></th>
                                     <th><?php echo $this->Paginator->sort('qsn_type_id'); ?></th>
-<!--                                    <th><?php // echo $this->Paginator->sort('qsu_order');                ?></th>-->
+                                    <!--                                    <th><?php // echo $this->Paginator->sort('qsu_order');                ?></th>-->
                                     <th><?php echo $this->Paginator->sort('qsn_rules'); ?></th>
                                     <!--<th class="actions"><?php // echo __('Actions');                ?></th>-->
                                 </tr>
@@ -28,22 +28,22 @@
                                 <?php
                                 $i = 1;
                                 foreach ($questions as $question):
-                                    ?>
-                                    <tr flag="<?php echo $question['Question']['id']; ?>">
-                                        <td><i class="fa fa-bars"><?php echo $i++; ?> &nbsp;</i></td>
-                                        <td>
-                                            <?php echo $this->Html->link($question['QuestionSet']['qsn_set_name'], array('controller' => 'question_sets', 'action' => 'view', $question['QuestionSet']['id'])); ?>
-                                        </td>
-                                        <td><?php echo h($question['Question']['qsn_desc']); ?>&nbsp;</td>
-                                        <td>
-                                            <?php echo $this->Html->link($question['QuestionType']['qsn_type'], array('controller' => 'qsn_types', 'action' => 'view', $question['QuestionType']['id'])); ?>
-                                        </td>
-    <!--                                        <td><?php // echo h($question['Question']['qsu_order']);                ?>&nbsp;</td>-->
-                                        <td>
-                                            <?php echo $this->Html->link($question['ValidationRule']['rule_name'], array('controller' => 'question_sets', 'action' => 'view', $question['ValidationRule']['id'])); ?>
-                                        </td>
-                                        <!--<td class="actions"></td>-->
-                                    </tr>
+                                ?>
+                                <tr flag="<?php echo $question['Question']['id']; ?>">
+                                    <td><i class="fa fa-bars"><?php echo $i++; ?> &nbsp;</i></td>
+                                    <td>
+                                        <?php echo $this->Html->link($question['QuestionSet']['qsn_set_name'], array('controller' => 'question_sets', 'action' => 'view', $question['QuestionSet']['id'])); ?>
+                                    </td>
+                                    <td><?php echo h($question['Question']['qsn_desc']); ?>&nbsp;</td>
+                                    <td>
+                                        <?php echo $this->Html->link($question['QuestionType']['qsn_type'], array('controller' => 'qsn_types', 'action' => 'view', $question['QuestionType']['id'])); ?>
+                                    </td>
+                                    <!--                                        <td><?php // echo h($question['Question']['qsu_order']);                ?>&nbsp;</td>-->
+                                    <td>
+                                        <?php echo $this->Html->link($question['ValidationRule']['rule_name'], array('controller' => 'question_sets', 'action' => 'view', $question['ValidationRule']['id'])); ?>
+                                    </td>
+                                    <!--<td class="actions"></td>-->
+                                </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -66,32 +66,32 @@
                             <?php echo $this->Form->create('Question', array('class' => 'form-horizontal', 'role' => 'form')); ?>
                             <?php
                             echo $this->Form->input('qsn_set_id', array("label" => false, "type" => "hidden",
-                                "value" => $questionSets["QuestionSet"]["id"]));
+                            "value" => $questionSets["QuestionSet"]["id"]));
                             ?>
                             <div class="form-group">
                                 <label>Question</label>
                                 <?php
                                 echo $this->Form->input('qsn_desc', array('label' => false,
-                                    'id' => 'qsn_desc', 'class' => 'form-control'));
+                                'id' => 'qsn_desc', 'class' => 'form-control'));
                                 ?>
-                                <p class="help-block">Enter the question here...</p>
+                                <p class="help-block">Enter the question here</p>
                             </div>
                             <div class="form-group">
                                 <label>Question help text</label>
                                 <?php
                                 echo $this->Form->input('qsn_help', array('label' => false,
-                                    'id' => 'qsn_help', 'class' => 'form-control'));
+                                'id' => 'qsn_help', 'class' => 'form-control'));
                                 ?>
-                                <p class="help-block">Enter the help here...</p>
+                                <p class="help-block">Enter the HELP Text here</p>
                             </div>
 
                             <div class="form-group">
-                                <label>Question type</label>
+                                <label>Answer type</label>
                                 <?php
                                 echo $this->Form->input('qsn_type_id', array('label' => false,
-                                    'id' => 'qsn_type_id', 'options' => array_merge(array("0" => "<--Please Select-->"), $qsnTypes), 'class' => 'form-control'));
+                                'id' => 'qsn_type_id', 'options' => array_merge(array("0" => "<--Please Select-->"), $qsnTypes), 'class' => 'form-control'));
                                 ?>
-                                <p class="help-block">Enter the description here...</p>
+
                             </div>
                             <div class="form-group" id="extraDiv" >
                                 <label>Add selections</label>
@@ -109,9 +109,9 @@
                                     <div  id="skipThings" class="col-md-4">
                                         <?php
                                         echo $this->Form->input('next_section_id', array('label' => false,
-                                            'name' => 'data[SelectMiscNext][]',
-                                            'options' => array_merge(array("0" => "<--No Skip-->"), $qsnSections),
-                                            'class' => 'form-control'));
+                                        'name' => 'data[SelectMiscNext][]',
+                                        'options' => array_merge(array("0" => "<--No Skip-->"), $qsnSections),
+                                        'class' => 'form-control'));
                                         ?>
                                     </div> 
                                     <div class="col-md-2" id="btns">
@@ -125,9 +125,9 @@
                                 <label>Answer length</label>
                                 <?php
                                 echo $this->Form->input('answer_length', array('label' => false,
-                                    'id' => 'answer_length', 'placeholder' => 'default 200', 'class' => 'form-control'));
+                                'id' => 'answer_length', 'value' => '200', 'class' => 'form-control'));
                                 ?>
-                                <p class="help-block">Enter the help here...</p>
+
                             </div>
                             <div class="form-group form-inline">
                                 <label>Required?&nbsp;&nbsp;</label>
@@ -140,9 +140,9 @@
 
                                     <?php
                                     echo $this->Form->input('section_id', array('label' => false,
-                                        'options' => $qsnSections, 'div' => false,
-                                        'default' => $prev_section['prev_id'],
-                                        'class' => 'form-control pull-left'));
+                                    'options' => $qsnSections, 'div' => false,
+                                    'default' => $prev_section['prev_id'],
+                                    'class' => 'form-control pull-left'));
                                     ?>
                                     <input class="form-control" 
                                            value="<?= $prev_section['name'] ?>"
@@ -178,6 +178,9 @@
                             <!--p class="help-block">Enter any numeric code or the order of the question here</p>
                         </div-->
                             <input type="submit" class="fa fa-plus btn btn-success" value="Add Question"/> 
+
+                            <input type="button" style="margin-left:3%;" class="fa btn btn-success" value="Cancel" onclick="cancel_page_update_qsn();" />
+
                             </form>
                         </div>
                     </div>
@@ -193,9 +196,8 @@
         $('#QuestionSectionId').on('change', function () {
             $('input[name="data[Question][section_name]"]').val('');
         });
-        var obj = <?php echo json_encode($data_array); ?>;
-
-        if (obj[$('#qsn_type_id option:selected').val() + "id"] != "1")
+        var obj = <?php echo json_encode($data_array); ?> ;
+                if (obj[$('#qsn_type_id option:selected').val() + "id"] != "1")
             $('#extraDiv').hide();
         else
             $('#extraDiv').show();
@@ -277,6 +279,15 @@
 //        return false;
 //    }
     });
+
+    function cancel_page_update_qsn() {
+
+        var setID = '<?php echo $setID;?>';
+        setTimeout(function () {
+            window.location.href = '/PSU/Questions/index/' + setID;
+        }, 1000);
+
+    }
 
 </script>
 

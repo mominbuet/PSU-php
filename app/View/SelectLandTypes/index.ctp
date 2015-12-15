@@ -1,20 +1,20 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            <?php echo __('Select Land Types'); ?></h1>
-         <?php echo $this->Html->link(__("Add Select Land Types"), array("action" => "add"),array("class"=>"btn btn-info pull-right")); ?>    </div>
+            <?php echo __('Land Types'); ?></h1>
+         <?php echo $this->Html->link(__("Add Land Types"), array("action" => "add"),array("class"=>"btn btn-info pull-right")); ?>    </div>
     <!-- /.col-lg-12 -->
 </div>
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                 <?php echo __('All Select Land Types'); ?>                <div class="panel-body">
+                 <?php echo __('All Land Types'); ?>                <div class="panel-body">
                     <div class="row">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                                 <tr>
-                                                                            <th><?php echo $this->Paginator->sort('land_use_id'); ?></th>
+                                                                            
                                                                             <th><?php echo $this->Paginator->sort('land_use_name'); ?></th>
                                                                             <th><?php echo $this->Paginator->sort('land_use_code'); ?></th>
                                                                         <th class="actions"><?php echo __('Actions'); ?></th>
@@ -23,7 +23,7 @@
                             <tbody>
                                 <?php foreach ($selectLandTypes as $selectLandType): ?>
 	<tr>
-		<td><?php echo h($selectLandType['SelectLandType']['land_use_id']); ?>&nbsp;</td>
+		
 		<td><?php echo h($selectLandType['SelectLandType']['land_use_name']); ?>&nbsp;</td>
 		<td><?php echo h($selectLandType['SelectLandType']['land_use_code']); ?>&nbsp;</td>
 		<td class="actions">

@@ -30,7 +30,8 @@ echo "<div class=\"form-group\"> <label>optional_data</label>";		echo $this->For
 echo "<div class=\"form-group\"> <label>full_message</label>";		echo $this->Form->input('full_message',array('label' => false,'class' => 'form-control'));
 		echo '</div>';
 	?>
-<input type="submit" class="fa fa-plus btn btn-success" value="Add/Edit"/> </form>                        </div>
+<input type="submit" class="fa fa-plus btn btn-success" value="Update"/> 
+<input type="button" style="margin-left:3%;" class="fa btn btn-success" value="Cancel" onclick="javascript:history.back();" /></form>                        </div>
                     </div>
                 </div>
             </div>
@@ -40,14 +41,5 @@ echo "<div class=\"form-group\"> <label>full_message</label>";		echo $this->Form
     <!-- /#page-wrapper -->
 </div>
 <div class="actions">
-    <h3><?php echo __('Actions'); ?></h3>
-    <ul>
-
-        <li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('UserMessage.id')), array(), __('Are you sure you want to delete # %s?', $this->Form->value('UserMessage.id'))); ?></li>
-        <li><?php echo $this->Html->link(__('List User Messages'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Question Sets'), array('controller' => 'question_sets', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Question Set'), array('controller' => 'question_sets', 'action' => 'add')); ?> </li>
-    </ul>
+    
 </div>

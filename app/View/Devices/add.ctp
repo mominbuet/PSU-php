@@ -34,7 +34,8 @@
                             echo $this->Form->input('version', array('label' => false, 'class' => 'form-control'));
                             echo '</div>';
                             ?>
-                            <input type="submit" class="fa fa-plus btn btn-success" value="Add/Edit"/> </form>                        </div>
+                            <input type="submit" class="fa fa-plus btn btn-success" value="Add/Edit"/> <input type="button" style="margin-left:3%;" class="fa btn btn-success" value="Cancel" onclick="javascript:history.back();" />
+							</form>                        </div>
                     </div>
                 </div>
             </div>
@@ -44,11 +45,5 @@
     <!-- /#page-wrapper -->
 </div>
 <div class="actions">
-    <h3><?php echo __('Actions'); ?></h3>
-    <ul>
-
-        <li><?php echo $this->Html->link(__('List Devices'), array('action' => 'index')); ?></li>
-        <li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-        <li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-    </ul>
+    
 </div>

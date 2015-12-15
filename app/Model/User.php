@@ -25,7 +25,14 @@ class User extends AppModel {
             'conditions' => '',
             'fields' => '',
             'order' => ''
-        )
+        ),
+//        'CreatedBy' => array(
+//            'className' => 'User',
+//            'foreignKey' => 'created_by',
+//            'conditions' => '',
+//            'fields' => '',
+//            'order' => ''
+//        ),
     );
 
     /**

@@ -21,11 +21,13 @@
                             echo "<div class=\"form-group\"> <label>group_name</label>";
                             echo $this->Form->input('group_name', array('label' => false, 'class' => 'form-control'));
                             echo '</div>';
-                            echo "<div class=\"form-group\"> <label>is_active</label>";
+                            echo "<div class=\"form-group form-inline\"> <label>is_active</label>";
                             echo $this->Form->input('is_active', array('type'=>'checkbox','label' => false, 'class' => 'form-control'));
                             echo '</div>';
                             ?>
-                            <input type="submit" class="fa fa-plus btn btn-success" value="Edit"/> </form>                        </div>
+                            <input type="submit" class="fa fa-plus btn btn-success" value="Edit"/> 
+							<input type="button" style="margin-left:3%;" class="fa btn btn-success" value="Cancel" onclick="javascript:history.back();" />
+							</form>                        </div>
                     </div>
                 </div>
             </div>

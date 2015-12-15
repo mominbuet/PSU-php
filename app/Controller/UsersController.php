@@ -10,6 +10,8 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController {
 
+    var $uses = array('UserHistory', 'User');
+
     /**
      * Components
      *
@@ -25,15 +27,24 @@ class UsersController extends AppController {
     public function index() {
         //optimization can be done witha new function in model
         //need a paginator with count
-       
+
         $this->User->recursive = 1;
+        $this->Paginator->settings['joins'] = array(array(
+                'table' => 'pmtc_users',
+                'alias' => 'CreatedBy',
+                'type' => 'right',
+                'foreignKey' => false,
+                'conditions' => array('User.created_by = CreatedBy.id')
+            ));
+        $this->Paginator->settings['fields'] = array('User.*', 'CreatedBy.last_name','CreatedBy.first_name');
+//        debug($this->Session->read('Auth.User.User.superuser'));
         if ($this->Session->read('Auth.User.User.superuser') != 1) {
 
-            $this->Paginator->settings = array(
-                'conditions' => array(
-                    'User.created_by' => $this->Session->read('Auth.User.User.id')));
-            $this->set('users', $this->Paginator->paginate());
+            $this->Paginator->settings['conditions'] =  array(
+                    'User.created_by' => $this->Session->read('Auth.User.User.id'));
+            $this->set('users', $this->Paginator->paginate("User"));
         } else {
+
 //            $this->Paginator->settings = array(
 //                'limit' => 20,
 //                'fields' => array('User.*', 'Device.device_visible_id', 'UserGroup.id'),
@@ -73,25 +84,33 @@ class UsersController extends AppController {
      */
     public function add() {
         $this->loadModel("Device");
+        //debug($this->request);
         if ($this->request->is('post')) {
-            $this->User->create();
-            $this->request->data['User']['created_by'] = $this->Session->read('Auth.User.User.id');
-            try {
-                if ($this->User->save($this->request->data)) {
-                    $this->UserHistory->create();
-                $this->UserHistory->save(array('user_id' => $this->Session->read('Auth.User.User.id'),
-                    'event_details' => "Added User " . $this->request->header('User-Agent'),
-                    'ipaddress' => $this->request->clientIp(),
-                    'event_time' => $db->expression('NOW()'),
-                    'user_event' => 'Added User ',
-                ));
-                    $this->Session->setFlash(__('The user has been saved.'));
-                    return $this->redirect(array('action' => 'index'));
-                } else {
-                    $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+
+            if ($this->request->data['User']['password'] != $this->request->data['User']['re_password']) {
+                $this->Session->setFlash(__('The password not match. try again..'));
+            } else {
+
+                $this->User->create();
+
+                $this->request->data['User']['created_by'] = $this->Session->read('Auth.User.User.id');
+                try {
+                    if ($this->User->save($this->request->data)) {
+                        $this->UserHistory->create();
+                        $this->UserHistory->save(array('user_id' => $this->Session->read('Auth.User.User.id'),
+                            'event_details' => "Added User " . $this->request->header('User-Agent'),
+                            'ipaddress' => $this->request->clientIp(),
+                            'event_time' => date('Y-m-d H:i:s'),
+                            'user_event' => 'Added User ',
+                        ));
+                        $this->Session->setFlash(__('The user has been saved.'));
+                        return $this->redirect(array('action' => 'index'));
+                    } else {
+                        $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+                    }
+                } catch (Exception $ex) {
+                    $this->Session->setFlash(__('Error saving the user, Please change the username.'));
                 }
-            } catch (Exception $ex) {
-                $this->Session->setFlash(__('Error saving the user, Please change the username.'));
             }
         }
         $devices = $this->Device->find('list');
@@ -116,8 +135,8 @@ class UsersController extends AppController {
                 $this->UserHistory->save(array('user_id' => $this->Session->read('Auth.User.User.id'),
                     'event_details' => "Edited User " . $this->request->header('User-Agent'),
                     'ipaddress' => $this->request->clientIp(),
-                    'event_time' => $db->expression('NOW()'),
-                    'user_event' => 'Added User',
+                    'event_time' => date('Y-m-d H:i:s'), //$db->expression('NOW()'),
+                    'user_event' => 'Edit User',
                 ));
                 return $this->redirect(array('action' => 'index'));
             } else {

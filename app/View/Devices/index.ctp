@@ -14,7 +14,6 @@
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                                 <tr>
-                                    <th><?php echo $this->Paginator->sort('id'); ?></th>
                                     <th><?php echo $this->Paginator->sort('device_visible_id'); ?></th>
                                     <th><?php echo $this->Paginator->sort('device_imei'); ?></th>
                                     <th><?php echo $this->Paginator->sort('device_phn_number'); ?></th>
@@ -27,7 +26,6 @@
                             <tbody>
                                 <?php foreach ($devices as $device): ?>
                                 <tr>
-                                    <td><?php echo h($device['Device']['id']); ?>&nbsp;</td>
                                     <td><?php echo h($device['Device']['device_visible_id']); ?>&nbsp;</td>
                                     <td><?php echo h($device['Device']['device_imei']); ?>&nbsp;</td>
                                     <td><?php echo h($device['Device']['device_phn_number']); ?>&nbsp;</td>
